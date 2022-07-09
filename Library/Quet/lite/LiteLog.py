@@ -1,12 +1,12 @@
 from colorama import Fore,init
 from . import litetime
 
-class litelog():
+class LiteLog():
     #init
     def __init__(self,**kwargs):
         '''
-        name __name__\n
-        style the color print style (D/L)
+        name __name__ -> name=__name__\n
+        style the color print style (D/L) -> style = 'L'
         '''
         init(autoreset=True)
         self.IFore=Fore

@@ -3,6 +3,81 @@ from tkinter import filedialog
 from tkinter import messagebox
 from . import litetime
 from json import loads,dumps
+
+class LiteEditor():
+    def __init__(self,**kwargs) -> None:
+        '''
+        config@Nullable(bool)\n
+        configpath@Nullable(str)
+        '''
+        self.root=Tk()
+        self.root.title("LiteEditor")
+        self.text=Text(root,selectforeground="black",undo=True,font=50)
+        self.text.pack(fill=BOTH,expand=YES)
+        if kwargs.__contains__("CfgSign"):
+            self.CfgSign=kwargs["CfgSign"]
+        try:
+            if kwargs.__contains__("config"):
+                runcfg=1
+                text.bind('<Control-s>', fastsavecfg)
+            else:
+                runcfg=0
+                text.bind('<Control-s>', fastsave)
+            if kwargs.__contains__("configpath"):
+                loadcfg(kwargs["configpath"])
+        except Exception as e:
+            print(str(e))
+            runcfg=0
+        
+        topmenu=Menu(root)
+        filemenu=Menu(topmenu,tearoff=False)
+        if runcfg != 1:
+            filemenu.add("command",label="打开",command=openfile)
+        filemenu.add_command(label="打开父文件夹",command=open_father)
+        if runcfg != 1:
+            filemenu.add_command(label="保存",command=savefile)
+        else:
+            filemenu.add_command(label="保存",command=savecfg)
+        if runcfg != 1:
+            filemenu.add_command(label="另存为",command=savefileas)
+        filemenu.add_separator()
+        filemenu.add_command(label="退出",command=quit)
+        topmenu.add_cascade(label="文件", menu=filemenu)
+        editmenu=Menu(topmenu,tearoff=False)
+        editmenu.add_command(label="撤销",command=callback)
+        editmenu.add("command",label="剪切",command=cut)
+        editmenu.add_command(label="复制",command=copy)
+        editmenu.add_command(label="粘贴",command=paste)
+        editmenu.add_separator()
+        editmenu.add_command(label="时间/日期",command=get_time)
+
+        topmenu.add_cascade(label="编辑",menu=editmenu)
+
+        helpmenu=Menu(topmenu,tearoff=False)
+        helpmenu.add_command(label="关于",command=about)
+        topmenu.add_cascade(label="帮助",menu=helpmenu)
+
+        popupmenu=Menu(root,tearoff=False)
+        if runcfg != 1:
+            popupmenu.add_command(label="保存",command=savefile)
+        else:
+            popupmenu.add_command(label="保存",command=savecfg)
+        if runcfg != 1:
+            popupmenu.add_command(label="另存为",command=savefileas)
+        popupmenu.add_separator()
+        popupmenu.add_command(label="撤回",command=callback)
+        popupmenu.add_separator()
+        popupmenu.add("command",label="剪切",command=cut)
+        popupmenu.add_command(label="复制",command=copy)
+        popupmenu.add_command(label="粘贴",command=paste)
+        popupmenu.add("command",label="删除",command=textdelete)
+        text.bind("<Button-3>",popup)
+
+        root.config(menu=topmenu)
+        mainloop()
+    
+
+
 ####
 def loadcfg(location):
     global globalCfg

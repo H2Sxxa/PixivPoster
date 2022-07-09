@@ -1,19 +1,8 @@
-from Library.Lite.litelog import litelog
-from Library.Lite.liteconfig import liteconfig
-mylog=litelog(name=__name__,style="L")
-mycfg=liteconfig("2.cfg",litelog=True)
-mycfg.addCfg("key","1")
-mycfg.signCfg("key","这是一个注释")
-mycfg.addCfg("vau122","abc")
-mycfg.signCfg("vau122","这是一个注释")
-mycfg.saveCfg()
-mycfg.editCfg()
-print(mycfg.readCfg("key"))
-mycfg=liteconfig("2.lang",litelog=True)
-mycfg.addCfg("key","多语言")
-mycfg.signCfg("key","这是一个注释")
-mycfg.addCfg("vau122","语言适配")
-mycfg.signCfg("vau122","这是一个注释")
-mycfg.saveCfg()
-mycfg.editCfg()
-print(mycfg.readCfg("key"))
+from Library.Quet.lite import LiteLog
+from Library.Quet.markdown import MarkDown
+from Library.Pixiv import Direct
+MP=Direct.Direct(sni=True,refresh_token='6kTgCA7VbDcxrhAeMliKxDVvsu9Jb4tW2qmb3tVM3FU')
+response=MP.login()
+refresh_token=response["refresh_token"]
+rk=MP.getRank()
+illustidlist,titlelist,pagecount,tagslist,userlist=MP.sortRank(rk)
