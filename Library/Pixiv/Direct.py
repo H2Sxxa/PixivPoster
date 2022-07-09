@@ -1,4 +1,5 @@
 from . import Api
+from . import tool
 from pixivpy_async.sync import *
 
 class Direct():
@@ -65,3 +66,5 @@ class Direct():
             tagslist.append(i["tags"])
             userlist.append(i["user"])
         return illustidlist,titlelist,pagecount,tagslist,userlist
+    def sort2Rank(self,pagecount,illustidlist,titlelist,address:str="pixiv.re"):
+        return tool.mk_list(pagecount,illustidlist,titlelist,address)

@@ -1,4 +1,4 @@
-def mk_list(pagecount,illustid,titlelist,address="pixiv.re"):
+def mk_list(pagecount:list,illustid:list,titlelist:list,address="pixiv.re"):
     urllist=[]
     for page,pid,title in zip(pagecount,illustid,titlelist):
         if int(page) == 1:
