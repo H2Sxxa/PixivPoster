@@ -49,7 +49,7 @@ class Direct():
                 print(str(e))
         else:
             auth=self.aapi.login_web()
-        return auth
+            return auth
     def getRank(self,mode:str='day'):
         try:
             return self.aapi.illust_ranking(mode)

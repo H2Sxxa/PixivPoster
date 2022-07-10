@@ -45,14 +45,14 @@ class LiteConfig():
             self.selflog.infolog("Save the Config")
             self.addbindlog()
         with open(self.ConfigLocation,"w",encoding="utf-8") as f:
-            f.write(dumps(self.ConfigCon))
+            f.write(dumps(self.ConfigCon,indent=4))
     def saveCfgSign(self) -> None:
         '''@void'''
         if self.litelog:
             self.selflog.infolog("Save the ConfigSign")
             self.addbindlog()
         with open(self.ConfigSignLocation,"w",encoding="utf-8") as f:
-            f.write(dumps(self.ConfigSign))
+            f.write(dumps(self.ConfigSign,indent=4))
     def loadCfg(self) -> None:
         '''@void\nuse it with the ConfigLocation arg'''
         if self.litelog:

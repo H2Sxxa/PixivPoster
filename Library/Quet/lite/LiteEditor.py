@@ -227,6 +227,6 @@ class LiteEditor():
                 k,v=asplit[0],asplit[1]
             findict.update({k:v})
         with open(self.filename,"w",encoding="utf-8") as f:
-            f.write(dumps(findict))
+            f.write(dumps(findict,indent=4))
     ####
 LiteEditor()
