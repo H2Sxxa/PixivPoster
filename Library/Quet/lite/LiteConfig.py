@@ -1,7 +1,7 @@
 from . import LiteEditor,LiteLog
 from json import dumps,loads
 class LiteConfig():
-    def __init__(self,ConfigLocation:str,**kwargs) -> None:
+    def __init__(self,ConfigLocation:str="./default.cfg",ConfigSignLocation:str="./default.scfg",**kwargs) -> None:
         '''
         ConfigLocation : The config path\n
         ConfigSignLocation : The config - sign path
@@ -15,6 +15,10 @@ class LiteConfig():
             self.selflog=LiteLog.LiteLog(name=__name__,style=kwargs["litelog_style"])
         else:
             self.selflog=LiteLog.LiteLog(name=__name__,style="D")
+        if kwargs.__contains__("litelog"):
+            self.litelog=True
+        else:
+            self.litelog=False
         if kwargs.__contains__("bindlog"):
             self.bindlog=kwargs["bindlog"]
         else:
@@ -22,49 +26,55 @@ class LiteConfig():
         self.ConfigCon={}
         self.ConfigSign={}
         self.ConfigLocation=ConfigLocation
-        if kwargs.__contains__("ConfigSignLocation"):
-            self.ConfigSignLocation=kwargs["ConfigSignLocation"]
-        if kwargs.__contains__("litelog"):
-            self.litelog=True
+        self.ConfigSignLocation=ConfigSignLocation
+            
+    def modifyCfg(self,key:str,vaule:any) -> None:
+        "@void\nuse it to modify the configuration"
+        if self.ConfigCon.__contains__(key):
+            if self.litelog:
+                self.selflog.infolog("Set "+key+":"+self.ConfigCon[key]+" to "+vaule)
+            self.ConfigCon[key]=vaule
         else:
-            self.litelog=False
+            if self.litelog:
+                self.selflog.errorlog("There is not a key named"+key)
+        if self.litelog:
+            self.addbindlog()
     def saveCfg(self) -> None:
         '''@void'''
         if self.litelog:
             self.selflog.infolog("Save the Config")
-            if self.bindlog != None:
-                self.bindlog.lastlog=self.selflog.lastlog
-                self.bindlog.logcache.append(self.bindlog.lastlog)
+            self.addbindlog()
         with open(self.ConfigLocation,"w",encoding="utf-8") as f:
             f.write(dumps(self.ConfigCon))
+    def saveCfgSign(self) -> None:
+        '''@void'''
+        if self.litelog:
+            self.selflog.infolog("Save the ConfigSign")
+            self.addbindlog()
+        with open(self.ConfigSignLocation,"w",encoding="utf-8") as f:
+            f.write(dumps(self.ConfigSign))
     def loadCfg(self) -> None:
         '''@void\nuse it with the ConfigLocation arg'''
         if self.litelog:
             self.selflog.infolog(f"Load from {self.ConfigLocation}")
-            if self.bindlog != None:
-                self.bindlog.lastlog=self.selflog.lastlog
-                self.bindlog.logcache.append(self.bindlog.lastlog)
-        self.ConfigCon=loads(open(self.ConfigLocation,"w",encoding="utf-8").read())
+            self.addbindlog()
+        self.ConfigCon=loads(open(self.ConfigLocation,"r",encoding="utf-8").read())
     def loadCfgSign(self) -> None:
         '''@void\nuse it with the ConfigSignLocation arg'''
         if self.litelog:
             self.selflog.infolog(f"Load from {self.ConfigSignLocation}")
-            if self.bindlog != None:
-                self.bindlog.lastlog=self.selflog.lastlog
-                self.bindlog.logcache.append(self.bindlog.lastlog)
-        self.ConfigSign=loads(open(self.ConfigSignLocation,"w",encoding="utf-8").read())
+            self.addbindlog()
+        self.ConfigSign=loads(open(self.ConfigSignLocation,"r",encoding="utf-8").read())
     def signCfg(self,key:str,msg:str) -> None:
         '''@void'''
         if self.litelog:
             self.selflog.infolog(f"Sign in {key} -> {msg}")
         self.ConfigSign.update({key:msg})
-    def addCfg(self,key:str,defaultvaule:str) -> None:
+    def addCfg(self,key:str,defaultvaule:any) -> None:
         '''@void'''
         if self.litelog:
             self.selflog.infolog(f"Add {key} -default> {defaultvaule}")
-            if self.bindlog != None:
-                self.bindlog.lastlog=self.selflog.lastlog
-                self.bindlog.logcache.append(self.bindlog.lastlog)
+            self.addbindlog()
         self.ConfigCon.update({key:defaultvaule})
     def readCfg(self,key:str) -> str:
         self.loadCfg()
@@ -75,7 +85,15 @@ class LiteConfig():
         '''@void'''
         if self.litelog:
             self.selflog.infolog("Open a editer")
-            if self.bindlog != None:
-                self.bindlog.lastlog=self.selflog.lastlog
-                self.bindlog.logcache.append(self.bindlog.lastlog)
-        LiteEditor.run(config=True,configpath=self.ConfigLocation,CfgSign=self.ConfigSign)
+            self.addbindlog()
+        LiteEditor.LiteEditor().run(config=True,configpath=self.ConfigLocation,CfgSign=self.ConfigSign)
+        if self.litelog:
+            self.selflog.infolog("Close the editer")
+            self.addbindlog()
+            self.loadCfg()
+            self.selflog.infolog("Last config -> "+str(self.ConfigCon))
+            self.addbindlog()
+    def addbindlog(self) -> None:
+        if self.bindlog != None:
+            self.bindlog.lastlog=self.selflog.lastlog
+            self.bindlog.logcache.append(self.bindlog.lastlog)

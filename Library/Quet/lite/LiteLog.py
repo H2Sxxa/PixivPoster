@@ -1,5 +1,5 @@
 from colorama import Fore,init
-from . import litetime
+from . import LiteTime
 
 class LiteLog():
     #init
@@ -25,10 +25,10 @@ class LiteLog():
             self.warnlog("The *name is null,it has been set to \"LiteLogger\"")
     #tool
     def gettime(self) -> str:
-        return litetime.gettime()
+        return LiteTime.LiteTime().gettime()
 
     def getlogname(self) -> str:
-        return litetime.getfulltime()+".log"
+        return LiteTime.LiteTime().getfulltime()+".log"
     
     def getFore(self,level:str) -> Fore:
         if self.style == "D":
@@ -50,40 +50,43 @@ class LiteLog():
     def infolog(self,msg:str) -> None:
         '''@void'''
         now=self.gettime()
-        print(self.getFore("info")+f"[INFO | {self.name} | {now}] "+Fore.WHITE+msg)
-        cache_log=f"[INFO | {self.name} | {now}] "+msg
+        print(self.getFore("info")+f"[INFO | {self.name} | {now}] "+Fore.WHITE+str(msg))
+        cache_log=f"[INFO | {self.name} | {now}] "+str(msg)
         self.lastlog=cache_log
         self.logcache.append(cache_log)
 
     def warnlog(self,msg:str) -> None:
         '''@void'''
         now=self.gettime()
-        print(self.getFore("warn")+f"[WARN | {self.name} | {now}] "+Fore.YELLOW+msg)
-        cache_log=f"[WARN | {self.name} | {now}] "+msg
+        print(self.getFore("warn")+f"[WARN | {self.name} | {now}] "+Fore.YELLOW+str(msg))
+        cache_log=f"[WARN | {self.name} | {now}] "+str(msg)
         self.lastlog=cache_log
         self.logcache.append(cache_log)
         
     def errorlog(self,msg:str) -> None:
         '''@void'''
         now=self.gettime()
-        print(self.getFore("error")+f"[ERROR | {self.name} | {now}] "+Fore.RED+msg)
-        cache_log=f"[ERROR | {self.name} | {now}] "+msg
+        print(self.getFore("error")+f"[ERROR | {self.name} | {now}] "+Fore.RED+str(msg))
+        cache_log=f"[ERROR | {self.name} | {now}] "+str(msg)
         self.lastlog=cache_log
         self.logcache.append(cache_log)
 
     def colorprint(msg,color) -> None:
         '''@void'''
-        print(color+msg)
+        print(color+str(msg))
     #input
     def colorinput(msg:str,color:Fore) -> str:
-        print(color+msg,end="")
+        print(color+str(msg),end="")
         return input()
     #write log
-    def write_cache_log(self,log_path:str,*autologname:bool) -> None:
+    def write_cache_log(self,log_path:str=None,*autologname:bool) -> None:
         '''
         @void\n
-        if 'autologname' is True, it will get a name automatically,but you still should point the log_path to a folder(./)
+        if 'autologname' is True or 'log_path' is None, it will get a name automatically,but you still should point the log_path to a folder(./)
         '''
+        if log_path == None:
+            autologname=True
+            log_path=""
         if autologname:
             fin_log_path=log_path+self.getlogname()
         else:
