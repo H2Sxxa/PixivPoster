@@ -19,4 +19,4 @@ jobs:
       - name: Post
         run: |
           cd ${{ github.workspace }}
-          main.exe
+          .\main.exe

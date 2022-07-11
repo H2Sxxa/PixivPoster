@@ -8,7 +8,7 @@ import markdown2
 myLog=LiteLog.LiteLog(name=__name__)
 myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
 myMarkDown=MarkDown.MarkDown()
-myMarkDownInter=Interpreter.Interpreter("default.base.md")
+myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
 myTime=LiteTime.LiteTime()
 def init():
     global MyPixiv
