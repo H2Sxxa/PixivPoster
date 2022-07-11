@@ -3,4 +3,4 @@ markdown2==2.4.3
 PixivPy_Async==1.2.14
 python_wordpress_xmlrpc==2.3
 requests==2.28.1
-tkinter
+
