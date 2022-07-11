@@ -1,1 +1,0 @@
-from . import wp_XMLRPC as wp_xmlrpc

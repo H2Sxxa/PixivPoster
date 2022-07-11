@@ -1,7 +1,7 @@
 from . import MarkDown
 
 class Interpreter():
-    def __init__(self,basemdlocation:str="default.base.md") -> None:
+    def __init__(self,basemdlocation:str="./default.base.md") -> None:
         self.markdown=MarkDown.MarkDown()
         self.sample=open(basemdlocation,"r",encoding="utf-8").read()
         self.sample=self.setVar(self.sample)
