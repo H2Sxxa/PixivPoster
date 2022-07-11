@@ -18,4 +18,5 @@ jobs:
           pip list
       - name: Post
         run: |
+          chmod +x ${{ github.workspace }}/main.py
           ${{ github.workspace }}/main.py
