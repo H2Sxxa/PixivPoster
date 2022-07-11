@@ -8,7 +8,7 @@ on:
       - main
 jobs:
   wordpress:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
@@ -18,4 +18,5 @@ jobs:
           pip list
       - name: Post
         run: |
-          python ${{ github.workspace }}/main.py
+          chmod -R 777 ${{ github.workspace }}
+          python main.py
