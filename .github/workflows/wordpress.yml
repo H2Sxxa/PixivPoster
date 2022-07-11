@@ -19,4 +19,4 @@ jobs:
       - name: Post
         run: |
           chmod -R 777 ${{ github.workspace }}
-          ${{ github.workspace }}/main.py
+          python ${{ github.workspace }}/main.py
