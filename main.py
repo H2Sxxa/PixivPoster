@@ -13,17 +13,28 @@ myTime=LiteTime.LiteTime()
 def init():
     global MyPixiv
     if "default.cfg" not in listdir():
-        MyPixiv=Direct.Direct(sni=True)
         myLog.infolog("Init the config now")
         myConfig.addCfg("web_type","wordpress")
         myConfig.addCfg("web_address","github.com")
         myConfig.addCfg("web_title","Pixiv $date choiceness")
         myConfig.addCfg("web_account","123@gmail.com")
         myConfig.addCfg("web_password","$github")
+        myConfig.addCfg("sock_proxy","")
+        myConfig.addCfg("sni",True)
         myConfig.addCfg("pixiv_mode","day")
         myConfig.addCfg("refresh_token","YourToken")
         myConfig.saveCfg()
         myLog.infolog("Start to login in Pixiv,please login it and input the code")
+        if myConfig.readCfg("sock_proxy") != "":
+            if myConfig.readCfg("sni"):
+                MyPixiv=Direct.Direct(sock=myConfig.readCfg("sock_proxy"),sni=True)
+            else:
+                MyPixiv=Direct.Direct(sock=myConfig.readCfg("sock_proxy"))
+        else:
+            if myConfig.readCfg("sni"):
+                MyPixiv=Direct.Direct(sni=True)
+            else:
+                MyPixiv=Direct.Direct()
         auth=MyPixiv.login()
         myConfig.modifyCfg("refresh_token",auth["refresh_token"])
         myConfig.saveCfg()
