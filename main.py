@@ -1,15 +1,15 @@
-from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
+from Library.Quet.lite import liteconfig,liteeditor,litelog,litetime
 from Library.Quet.markdown import MarkDown,Interpreter
-from Library.Pixiv import Direct
-from Library.Web.wordpress import wp_XMLRPC
+from Library.Pixiv import direct
+from Library.Web.wordpress import wp_xmlrpc
 from vaule import *
 from os import listdir
 import markdown2
-myLog=LiteLog.LiteLog(name=__name__)
-myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
+myLog=litelog.LiteLog(name=__name__)
+myConfig=liteconfig.LiteConfig(litelog=True,bindlog=myLog)
 myMarkDown=MarkDown.MarkDown()
 myMarkDownInter=Interpreter.Interpreter("default.base.md")
-myTime=LiteTime.LiteTime()
+myTime=litetime.LiteTime()
 def init():
     global MyPixiv
     if "default.cfg" not in listdir():
@@ -27,20 +27,20 @@ def init():
         myLog.infolog("Start to login in Pixiv,please login it and input the code")
         if myConfig.readCfg("sock_proxy") != "":
             if myConfig.readCfg("sni"):
-                MyPixiv=Direct.Direct(sock=myConfig.readCfg("sock_proxy"),sni=True)
+                MyPixiv=direct.Direct(sock=myConfig.readCfg("sock_proxy"),sni=True)
             else:
-                MyPixiv=Direct.Direct(sock=myConfig.readCfg("sock_proxy"))
+                MyPixiv=direct.Direct(sock=myConfig.readCfg("sock_proxy"))
         else:
             if myConfig.readCfg("sni"):
-                MyPixiv=Direct.Direct(sni=True)
+                MyPixiv=direct.Direct(sni=True)
             else:
-                MyPixiv=Direct.Direct()
+                MyPixiv=direct.Direct()
         auth=MyPixiv.login()
         myConfig.modifyCfg("refresh_token",auth["refresh_token"])
         myConfig.saveCfg()
         loadcfgsign()
     else:
-        MyPixiv=Direct.Direct(sni=True,refresh_token=myConfig.readCfg("refresh_token"))
+        MyPixiv=direct.Direct(sni=True,refresh_token=myConfig.readCfg("refresh_token"))
         myLog.infolog("Login with the token...")
         myLog.infolog("If all failed , you should restart it...")
         MyPixiv.login()
@@ -61,7 +61,7 @@ def genMarkdown():
 def postArticle():
     webtype=myConfig.readCfg("web_type")
     if webtype == "wordpress":
-        myClient=wp_XMLRPC.wp_XMLRPC(myConfig.readCfg("web_address"),myConfig.readCfg("web_account"),myConfig.readCfg("web_password"))
+        myClient=wp_xmlrpc.wp_XMLRPC(myConfig.readCfg("web_address"),myConfig.readCfg("web_account"),myConfig.readCfg("web_password"))
         myClient.setArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),content=hmdnc)
         articleid=myClient.postArticle()
         myLog.infolog("Post successfully,the article id is "+articleid)
