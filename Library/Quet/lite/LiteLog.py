@@ -1,5 +1,5 @@
 from colorama import Fore,init
-from . import litetime
+from . import LiteTime
 #import platform
 class LiteLog():
     #init
@@ -25,10 +25,10 @@ class LiteLog():
             self.warnlog("The *name is null,it has been set to \"LiteLogger\"")
     #tool
     def gettime(self) -> str:
-        return litetime.LiteTime().gettime()
+        return LiteTime.LiteTime().gettime()
 
     def getlogname(self) -> str:
-        return litetime.LiteTime().getfulltime()+".log"
+        return LiteTime.LiteTime().getfulltime()+".log"
     
     def getFore(self,level:str) -> Fore:
         if self.style == "D":

@@ -1,5 +1,5 @@
-from . import api
-from . import Tool
+from . import Api
+from . import tool
 from pixivpy_async.sync import *
 
 class Direct():
@@ -58,7 +58,7 @@ class Direct():
         except Exception as e:
             print(str(e))
             print("failed,may be the refresh_token has expired,it has turned to api")
-            return api.pixiv()
+            return Api.pixiv()
     def sortRank(self,jsondict):
         illustidlist,titlelist,pagecount,tagslist,userlist=[],[],[],[],[]
         for i in jsondict["illusts"]:
@@ -69,7 +69,7 @@ class Direct():
             userlist.append(i["user"])
         return illustidlist,titlelist,pagecount,tagslist,userlist
     def sort2Rank(self,pagecount,illustidlist,titlelist,address:str="pixiv.re"):
-        return Tool.mk_list(pagecount,illustidlist,titlelist,address)
+        return tool.mk_list(pagecount,illustidlist,titlelist,address)
     def sortillustlink(self,illustidlist,illusturllist):
         alllist=[]
         onelist=[]

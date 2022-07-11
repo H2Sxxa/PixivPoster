@@ -1,1 +1,1 @@
-from . import Interpreter,MarkDown as interpreter,markdown
+from . import Interpreter,MarkDown
