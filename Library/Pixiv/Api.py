@@ -1,9 +1,9 @@
 from json import loads
 from requests import get
-from .time import getdate
+from . import Time
 def pixiv(date=None):
     if date == None:
-        adate="date="+getdate()
+        adate="date="+Time.getdate()
     else:
         adate="date="+date
     api=r"https://api.acgmx.com/public/ranking?ranking_type=illust&mode=daily&per_page=50&page=1&"+adate

@@ -1,5 +1,5 @@
 from Library.Quet.lite import liteconfig,liteeditor,litelog,litetime
-from Library.Quet.markdown import MarkDown,Interpreter
+from Library.Quet.markdown import markdown,interpreter
 from Library.Pixiv import direct
 from Library.Web.wordpress import wp_xmlrpc
 from vaule import *
@@ -7,8 +7,8 @@ from os import listdir
 import markdown2
 myLog=litelog.LiteLog(name=__name__)
 myConfig=liteconfig.LiteConfig(litelog=True,bindlog=myLog)
-myMarkDown=MarkDown.MarkDown()
-myMarkDownInter=Interpreter.Interpreter("default.base.md")
+myMarkDown=markdown.MarkDown()
+myMarkDownInter=interpreter.Interpreter("default.base.md")
 myTime=litetime.LiteTime()
 def init():
     global MyPixiv

@@ -1,4 +1,4 @@
-from . import LiteEditor,LiteLog
+from . import liteeditor,litelog
 from json import dumps,loads
 class LiteConfig():
     def __init__(self,ConfigLocation:str="./default.cfg",ConfigSignLocation:str="./default.scfg",**kwargs) -> None:
@@ -12,9 +12,9 @@ class LiteConfig():
         
         '''
         if kwargs.__contains__("litelog_style"):
-            self.selflog=LiteLog.LiteLog(name=__name__,style=kwargs["litelog_style"])
+            self.selflog=litelog.LiteLog(name=__name__,style=kwargs["litelog_style"])
         else:
-            self.selflog=LiteLog.LiteLog(name=__name__,style="D")
+            self.selflog=litelog.LiteLog(name=__name__,style="D")
         if kwargs.__contains__("litelog"):
             self.litelog=True
         else:
@@ -86,7 +86,7 @@ class LiteConfig():
         if self.litelog:
             self.selflog.infolog("Open a editer")
             self.addbindlog()
-        LiteEditor.LiteEditor().run(config=True,configpath=self.ConfigLocation,CfgSign=self.ConfigSign)
+        liteeditor.LiteEditor().run(config=True,configpath=self.ConfigLocation,CfgSign=self.ConfigSign)
         if self.litelog:
             self.selflog.infolog("Close the editer")
             self.addbindlog()

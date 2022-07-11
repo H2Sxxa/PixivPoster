@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 from json import loads,dumps
-from . import LiteTime
+from . import litetime
 class LiteEditor():
     def run(self,**kwargs) -> None:
         '''
@@ -11,7 +11,7 @@ class LiteEditor():
         '''
         self.filename=""
         self.CfgSign={}
-        self.Itime=LiteTime.LiteTime()
+        self.Itime=litetime.LiteTime()
         self.root=Tk()
         self.root.title("LiteEditor")
         self.text=Text(self.root,selectforeground="black",undo=True,font=50)
