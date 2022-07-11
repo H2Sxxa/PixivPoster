@@ -62,5 +62,6 @@ sortillustlist=MyPixiv.sortillustlink(illustidlist,pureurllist)
 mdn=genMarkdown()
 mdnc=open(mdn,"r",encoding="utf-8").read()
 hmdnc=str(markdown2.markdown_path(mdn))
-
-postArticle()
+with open("1.html","w",encoding="utf-8") as f:
+    f.write(hmdnc)
+#postArticle()
