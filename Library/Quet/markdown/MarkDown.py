@@ -119,9 +119,7 @@ class MarkDown():
         return "<%s>" % slide
     def setSample(self,Sample:str,ReplaceDict:str) -> Exception or None:
         for key,vaule in ReplaceDict.items():
-            try:
+            if key in Sample:
                 Sample.replace(key,vaule)
-            except Exception as e:
-                return e
         self.sample=Sample
     

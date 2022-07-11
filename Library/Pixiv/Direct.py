@@ -47,12 +47,14 @@ class Direct():
                 auth=self.aapi.login(refresh_token=self.token)
             except Exception as e:
                 print(str(e))
+                print("If all failed , you should reload it")
         else:
             auth=self.aapi.login_web()
             return auth
     def getRank(self,mode:str='day'):
         try:
-            return self.aapi.illust_ranking(mode)
+            rank=self.aapi.illust_ranking(mode)
+            return rank
         except Exception as e:
             print(str(e))
             print("failed,may be the refresh_token has expired,it has turned to api")
@@ -68,3 +70,19 @@ class Direct():
         return illustidlist,titlelist,pagecount,tagslist,userlist
     def sort2Rank(self,pagecount,illustidlist,titlelist,address:str="pixiv.re"):
         return tool.mk_list(pagecount,illustidlist,titlelist,address)
+    def sortillustlink(self,illustidlist,illusturllist):
+        alllist=[]
+        onelist=[]
+        for iid in illustidlist:
+            iid=str(iid)
+            for illusturl in illusturllist:
+                if iid in illusturl:
+                    onelist.append(illusturl)
+            alllist.append(onelist)
+            onelist=[]
+        return alllist
+    def extarctlink(self,illustdict:dict):
+        finlist=[]
+        for i in illustdict:
+            finlist.append(i["url"])
+        return finlist
