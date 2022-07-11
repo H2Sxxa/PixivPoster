@@ -14,11 +14,9 @@ jobs:
         uses: actions/checkout@v3
       - name: Set-up workspace
         run: |
-          sudo apt-get install python3-tk
           pip install -r requirements.txt
           pip list
       - name: Post
         run: |
-          chmod -R 777 ${{ github.workspace }}
           cd ${{ github.workspace }}
           main.exe
