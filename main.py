@@ -42,7 +42,7 @@ def getRank():
     return MyPixiv.sortRank(MyPixiv.getRank(myConfig.readCfg("pixiv_mode")))
 def genMarkdown():
     myLog.infolog("Start to generate markdown")
-    myMarkDownInter.loadall(artistname=artistlist,illust=sortillustlist,illustid=illustidlist,illustname=titlelist)
+    myMarkDownInter.loadall(artistname=artistlist,illust=sortillustlist,illustid=illustidlist,illustname=titlelist,artistid=artistidlist)
     mdname=myTime.getdate()+" "+myConfig.readCfg("pixiv_mode")+".md"
     myMarkDownInter.sampleout(mdname)
     myLog.infolog("Congratulate!All generate finished!")
@@ -57,11 +57,10 @@ def postArticle():
 init()
 illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()
 urllist=MyPixiv.sort2Rank(pagecount,illustidlist,titlelist)
-pureurllist=MyPixiv.extarctlink(urllist)
+pureurllist=MyPixiv.extarctSort(urllist,"url")
 sortillustlist=MyPixiv.sortillustlink(illustidlist,pureurllist)
+artistidlist=MyPixiv.extarctSort(artistlist,"id")
 mdn=genMarkdown()
 mdnc=open(mdn,"r",encoding="utf-8").read()
 hmdnc=str(markdown2.markdown_path(mdn))
-with open("1.html","w",encoding="utf-8") as f:
-    f.write(hmdnc)
-#postArticle()
+postArticle()

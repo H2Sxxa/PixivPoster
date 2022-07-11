@@ -11,14 +11,14 @@ class Interpreter():
         '''
         image(dict):
             artistname:strlist
-            #TODO aritstid:strlist
+            aritstid:strlist
             illust:strlist(the link of the illust)[(p1,p2,...),(p1,p2,...),...]
             illustname:strlist
             illustid:strlist
             #TODO illusttag:[strlist,int or None(all tag)]
         '''  
         self.artistname=infodict["artistname"]
-        #self.artistid=infodict["artistid"]
+        self.artistid=infodict["artistid"]
         self.illust=infodict["illust"]
         self.illustname=infodict["illustname"]
         self.illustid=infodict["illustid"]
@@ -37,11 +37,9 @@ class Interpreter():
                 else:
                     self.maxillust=int(self.maxillust)
                 
-                for illustid,illustname,artistname in zip(self.illustid,self.illustname,self.artistname):
-                   # illustname=loads(artistname)
-                    #print(illustid,illustname,artistname["name"])
+                for illustid,illustname,artistname,artistid in zip(self.illustid,self.illustname,self.artistname,self.artistid):
                     oneindex=self.illustid.index(illustid)
-                    oneobj=self.illustsample.replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"])
+                    oneobj=self.illustsample.replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid))
                     finimg=""
                     for img in self.illust[oneindex]:
                         img=self.markdown.setImg(img,imgtext=illustname)

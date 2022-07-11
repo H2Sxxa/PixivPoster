@@ -1,4 +1,4 @@
-import json
+from json import loads
 from requests import get
 from .time import getdate
 def pixiv(date=None):
@@ -14,13 +14,12 @@ def getinfo(api):
     try:
         apitext=get(api).text
     except:
-        return [],[],[],[],[]
+        raise ValueError("API Requests Error")
     if apitext == "{\"illusts\":[],\"next_url\":null}":
-        return [],[],[],[],[]
+        raise ValueError("A empty date")
     if apitext == "{\"code\":500,\"msg\":\"请求失败\"}" or apitext=="获取失败":
-        return [],[],[],[],[]
+        raise ValueError("The api may get something error")
     try:
-        return json.loads(apitext)
+        return loads(apitext)
     except:
-        return None
-
+        raise ValueError("The api may get something error")

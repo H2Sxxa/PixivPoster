@@ -81,8 +81,8 @@ class Direct():
             alllist.append(onelist)
             onelist=[]
         return alllist
-    def extarctlink(self,illustdict:dict):
+    def extarctSort(self,adict:dict,key:str) -> list:
         finlist=[]
-        for i in illustdict:
-            finlist.append(i["url"])
+        for i in adict:
+            finlist.append(i[key])
         return finlist
