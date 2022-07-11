@@ -2,6 +2,7 @@ from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
 from Library.Quet.markdown import MarkDown,Interpreter
 from Library.Pixiv import Direct
 from Library.Web.wordpress import wp_XMLRPC
+from Library.Web.typecho import tc_XMLRPC
 from vaule import *
 from os import listdir
 import markdown2
@@ -63,6 +64,11 @@ def postArticle():
     webtype=myConfig.readCfg("web_type")
     if webtype == "wordpress":
         myClient=wp_XMLRPC.wp_XMLRPC(myConfig.readCfg("web_address"),myConfig.readCfg("web_account"),myConfig.readCfg("web_password"))
+        myClient.setArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),content=hmdnc)
+        articleid=myClient.postArticle()
+        myLog.infolog("Post successfully,the article id is "+articleid)
+    if webtype == "typecho":
+        myClient=tc_XMLRPC.tc_XMLRPC(myConfig.readCfg("web_address"),myConfig.readCfg("web_account"),myConfig.readCfg("web_password"))
         myClient.setArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),content=hmdnc)
         articleid=myClient.postArticle()
         myLog.infolog("Post successfully,the article id is "+articleid)
