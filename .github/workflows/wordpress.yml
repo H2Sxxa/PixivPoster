@@ -6,7 +6,7 @@ on:
   push:	
     branches:	
       - main
-job:
+jobs:
   wordpress:
     runs-on: ubuntu-latest
     steps:
