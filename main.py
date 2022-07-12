@@ -16,15 +16,15 @@ def init():
     if "default.cfg" not in listdir():
         myLog.infolog("Init the config now")
         myConfig.addCfg("web_type","wordpress")
-        myConfig.addCfg("web_address","github.com")
+        myConfig.addCfg("web_address","https://localhost:6800/xmlrpc.php")
         myConfig.addCfg("web_title","Pixiv $date choiceness")
-        myConfig.addCfg("web_account","123@gmail.com")
-        myConfig.addCfg("web_password","$github")
+        myConfig.addCfg("web_account","admin@mail.com")
+        myConfig.addCfg("web_password","YourPassword")
         myConfig.addCfg("sock_proxy","")
         myConfig.addCfg("sni",True)
         myConfig.addCfg("savelog",False)
         myConfig.addCfg("pixiv_mode","day")
-        myConfig.addCfg("refresh_token","YourToken")
+        myConfig.addCfg("refresh_token","")
         myConfig.saveCfg()
         myLog.infolog("Start to login in Pixiv,please login it and input the code")
         if myConfig.readCfg("sock_proxy") != "":
@@ -42,11 +42,15 @@ def init():
         myConfig.saveCfg()
         loadcfgsign()
     else:
-        MyPixiv=Direct.Direct(sni=True,refresh_token=myConfig.readCfg("refresh_token"))
-        myLog.infolog("Login with the token...")
-        myLog.infolog("If all failed , you should restart it...")
-        MyPixiv.login()
-        myConfig.loadCfg()
+        if myConfig.readCfg("refresh_token") == "":
+            auth=MyPixiv.login()
+            myConfig.modifyCfg("refresh_token",auth["refresh_token"])
+            myConfig.saveCfg()
+        else:
+            MyPixiv=Direct.Direct(sni=True,refresh_token=myConfig.readCfg("refresh_token"))
+            myLog.infolog("Login with the token...")
+            myLog.infolog("If all failed , you should restart it...")
+            MyPixiv.login()
         loadcfgsign()
 def loadcfgsign():
     myConfig.signCfg("pixiv_mode",sign_mode)
@@ -66,12 +70,12 @@ def postArticle():
         myClient=wp_XMLRPC.wp_XMLRPC(myConfig.readCfg("web_address"),myConfig.readCfg("web_account"),myConfig.readCfg("web_password"))
         myClient.setArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),content=hmdnc)
         articleid=myClient.postArticle()
-        myLog.infolog("Post successfully,the article id is "+articleid)
+        myLog.infolog("Post successfully,the article id is "+str(articleid))
     if webtype == "typecho":
         myClient=tc_XMLRPC.tc_XMLRPC(myConfig.readCfg("web_address"),myConfig.readCfg("web_account"),myConfig.readCfg("web_password"))
         myClient.setArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),content=hmdnc)
         articleid=myClient.postArticle()
-        myLog.infolog("Post successfully,the article id is "+articleid)
+        myLog.infolog("Post successfully,the article id is "+str(articleid))
 try:
     init()
     illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()
