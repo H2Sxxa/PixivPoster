@@ -38,11 +38,11 @@ class MDBook():
                 if urlsafe:
                     sourceimg=parse.quote(sourceimg)
                 if fin == "":
-                    fin=self.selfMD.setImg(sourceimg)
+                    fin=self.selfMD.setImg(sourceimg,rpimgtext=sourceimg)
                 else:
-                    fin=fin+"\n"+self.selfMD.setImg(sourceimg)
+                    fin=fin+"\n"+self.selfMD.setImg(sourceimg,rpimgtext=sourceimg)
             fin="# "+foldername+"\n"+fin
-            print(len(self.folderlist),self.folderlist.index(foldername),self.folderlist.index(foldername))
+            #print(len(self.folderlist),self.folderlist.index(foldername),self.folderlist.index(foldername))
             if self.folderlist.index(foldername)!=0:
                 lastfoldername=self.folderlist[self.folderlist.index(foldername)-1]
                 if urlsafe:
@@ -56,6 +56,3 @@ class MDBook():
             with open(outdir+"/"+foldername+".md","w",encoding="utf-8") as f:
                 f.write(fin)
             
-        #print(self.sourcedir)
-        #print(address)
-        #print(self.folderlist)

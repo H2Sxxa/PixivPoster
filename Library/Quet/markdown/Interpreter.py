@@ -57,9 +57,11 @@ class Interpreter():
                         fin=fin+i
                 self.sample=self.sample.replace(objself,fin)
     def setVar(self,obj):
+        from time import strftime,localtime
         if "$date" in obj:
-            from time import strftime,localtime
             obj=obj.replace("$date",strftime("%Y-%m-%d", localtime()))
+        if "$time" in obj:
+            obj=obj.replace("$time",strftime(("%H-%M-%S"),localtime()))
         if "$br" in obj:
             obj=obj.replace("$br",self.markdown.br)
         return obj

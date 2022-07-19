@@ -27,7 +27,6 @@ class LiteConfig():
         self.ConfigSign={}
         self.ConfigLocation=ConfigLocation
         self.ConfigSignLocation=ConfigSignLocation
-            
     def modifyCfg(self,key:str,vaule:any) -> None:
         "@void\nuse it to modify the configuration"
         if self.ConfigCon.__contains__(key):
@@ -80,7 +79,12 @@ class LiteConfig():
         self.loadCfg()
         if self.litelog:
             self.selflog.infolog(f"Read {key}")
-        return self.ConfigCon[key]
+        res=self.ConfigCon[key]
+        for key2,vaule in self.ConfigCon.items():
+            if type(key2) == str and type(self.ConfigCon[key]) == str:
+                if "$"+key2+"$" in self.ConfigCon[key]:
+                    res=self.ConfigCon[key].replace("$"+key2+"$",vaule)
+        return res
     def editCfg(self) -> None:
         '''@void'''
         if self.litelog:

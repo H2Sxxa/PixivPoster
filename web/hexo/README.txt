@@ -1,0 +1,1 @@
+安装NodeJS后运行install.bat然后将_deploy.bat放入生成的文件夹

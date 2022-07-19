@@ -104,7 +104,7 @@ class MarkDown():
             return "![%s](%s \"%s\")" % (rpimgtext,link,imgtext)
         elif hasimgtext and not hasrpimgtext:
             return "![](%s \"%s\")" % (link,imgtext)
-        elif not hasrpimgtext and hasrpimgtext:
+        elif not hasimgtext and hasrpimgtext:
             return "![%s](%s)" % (rpimgtext,link)
         else:
             return "![](%s)" % link

@@ -4,7 +4,8 @@ from Library.Pixiv import Direct
 from Library.Web.wordpress import wp_XMLRPC
 from Library.Web.typecho import tc_XMLRPC
 from vaule import *
-from os import listdir
+from os import listdir, remove, system
+from shutil import move
 import markdown2
 myLog=LiteLog.LiteLog(name=__name__)
 myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
@@ -16,10 +17,15 @@ def init():
     if "default.cfg" not in listdir():
         myLog.infolog("Init the config now")
         myConfig.addCfg("web_type","wordpress")
+        myConfig.addCfg("web_local_name","blog")
+        myConfig.addCfg("web_local_dir","./web/hexo/$web_local_name$/source/_posts")
+        myConfig.addCfg("web_local_root","./web/hexo/$web_local_name$")
+        myConfig.addCfg("web_local_deploy","_deploy.bat")
         myConfig.addCfg("web_address","https://localhost:6800/xmlrpc.php")
         myConfig.addCfg("web_title","Pixiv $date choiceness")
         myConfig.addCfg("web_account","admin@mail.com")
         myConfig.addCfg("web_password","YourPassword")
+        myConfig.addCfg("clean_cache",False)
         myConfig.addCfg("sock_proxy","")
         myConfig.addCfg("sni",True)
         myConfig.addCfg("savelog",False)
@@ -76,6 +82,12 @@ def postArticle():
         myClient.setArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),content=hmdnc)
         articleid=myClient.postArticle()
         myLog.infolog("Post successfully,the article id is "+str(articleid))
+    if webtype == "local":
+        try:
+            move(mdn,myConfig.readCfg("web_local_dir"))
+        except Exception as e:
+            myLog.errorlog(str(e))
+        system("cd \""+myConfig.readCfg("web_local_root")+"\" && "+myConfig.readCfg("web_local_deploy"))
 try:
     init()
     illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()
@@ -94,3 +106,13 @@ except Exception as e:
 finally:
     if myConfig.readCfg("savelog") == True:
         myLog.write_cache_log()
+    if myConfig.readCfg("clean_cache") == True:
+        try:
+            remove(mdn)
+        except:
+            pass
+        try:
+            remove(mdn.replace(".md",".html"))
+        except:
+            pass
+    
