@@ -5,7 +5,14 @@ if platform == "Linux":
     import sys
     p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
     if p not in sys.path:
-        sys.path.append(p)
+        sys.path.append(p+"/Library")
+        sys.path.append(p+"/Library/Pixiv")
+        sys.path.append(p+"/Library/Quet")
+        sys.path.append(p+"/Library/Web/hexo")
+        sys.path.append(p+"/Library/Web/github")
+        sys.path.append(p+"/Library/Web/typecho")
+        sys.path.append(p+"/Library/Web/wordpress")
+        print("add all support")
 from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
 from Library.Quet.markdown import MarkDown,Interpreter
 from Library.Pixiv import Direct
