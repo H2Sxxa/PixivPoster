@@ -1,3 +1,4 @@
+from json import loads
 from . import MarkDown
 
 class Interpreter():
@@ -6,6 +7,7 @@ class Interpreter():
         self.sample=open(basemdlocation,"r",encoding="utf-8").read()
         self.sample=self.setVar(self.sample)
         self.samplelist=self.sample.splitlines()
+        self.mystyle={"illust":{"rpimgtext":"","imgtext":""}}
         self.outlist=[]
     def loadall(self,**infodict):
         '''
@@ -26,6 +28,23 @@ class Interpreter():
         self.mainthread()
     def mainthread(self):
         for obj in self.samplelist:
+            if ":style>" in obj:
+                self.sample=self.sample.replace(obj,"")
+                obj = obj.replace(":style>","")
+                styledict:dict = loads(obj)
+                if "function" not in styledict.keys():
+                    print("A illegal style")
+                    continue
+                if styledict["function"] == "illust":
+                    if "rpimgtext" in styledict.keys():
+                        rpimgtext = styledict["rpimgtext"]
+                    else:
+                        rpimgtext = ""
+                    if "imgtext" in styledict.keys():
+                        imgtext = styledict["imgtext"]
+                    else:
+                        imgtext = ""
+                    self.mystyle["illust"]={"rpimgtext":rpimgtext,"imgtext":imgtext}
             if "?>img," in obj:
                 objself=obj.split(">img,")[1].split("<?")[0]
                 objself="?>img,"+objself+"<?"
@@ -42,7 +61,7 @@ class Interpreter():
                     oneobj=self.illustsample.replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid))
                     finimg=""
                     for img in self.illust[oneindex]:
-                        img=self.markdown.setImg(img,imgtext=illustname)
+                        img=self.markdown.setImg(img,imgtext=self.mystyle["illust"]["imgtext"].replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid)),rpimgtext=self.mystyle["illust"]["rpimgtext"].replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid)))
                         if finimg == "":
                             finimg=img
                         else:

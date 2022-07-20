@@ -92,14 +92,17 @@ class MarkDown():
         if kwargs.__contains__("imgtext"):
             imgtext = kwargs["imgtext"]
             hasimgtext = True
+            if imgtext == "":
+                hasimgtext=False
         else:
             hasimgtext = False
-            
         if kwargs.__contains__("rpimgtext"):
             rpimgtext = kwargs["rpimgtext"]
             hasrpimgtext = True
+            if rpimgtext == "":
+                hasrpimgtext=False
         else:
-            hasrpimgtext = False 
+            hasrpimgtext = False
         if hasimgtext and hasrpimgtext:
             return "![%s](%s \"%s\")" % (rpimgtext,link,imgtext)
         elif hasimgtext and not hasrpimgtext:
