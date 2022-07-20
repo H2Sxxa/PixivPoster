@@ -6,9 +6,9 @@ if platform.system() == "Linux":
     import sys
     p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
     print(p+"/Library/Quet/lite/LiteLog")
-    sys.path.insert(0,p+"/Library/Quet/lite/LiteLog")
-    sys.path.insert(0,p+"/Library/Quet/lite/LiteConfig")
-    sys.path.insert(0,p+"/Library/Quet/lite/LiteTime")
+    sys.path.insert(0,p+"/Library/Quet/lite/LiteLog.py")
+    sys.path.insert(0,p+"/Library/Quet/lite/LiteConfig.py")
+    sys.path.insert(0,p+"/Library/Quet/lite/LiteTime.py")
     print("add all support")
 if platform.system() == "Windows":
     from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
