@@ -29,7 +29,7 @@ class Interpreter():
     def mainthread(self):
         for obj in self.samplelist:
             if ":style>" in obj:
-                self.sample=self.sample.replace(obj,"")
+                self.sample=self.sample.replace(obj+"\n","")
                 obj = obj.replace(":style>","")
                 styledict:dict = loads(obj)
                 if "function" not in styledict.keys():
