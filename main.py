@@ -5,40 +5,37 @@ if platform.system() == "Linux":
     import os
     import sys
     p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
-    if p not in sys.path:
-        sys.path.append(p)
-        sys.path.append(p+"/Library")
-        sys.path.append(p+"/Library/Pixiv")
-        sys.path.append(p+"/Library/Quet")
-        sys.path.append(p+"/Library/Quet/lite")
-        sys.path.append(p+"/Library/Quet/markdown")
-        sys.path.append(p+"/Library/Web")
-        sys.path.append(p+"/Library/Web/hexo")
-        sys.path.append(p+"/Library/Web/github")
-        sys.path.append(p+"/Library/Web/typecho")
-        sys.path.append(p+"/Library/Web/wordpress")
-        print("add all support")
+    print(p+"/Library/Quet/lite/LiteLog")
+    sys.path.insert(p+"/Library/Quet/lite/LiteLog")
+    sys.path.insert(p+"/Library/Quet/lite/LiteConfig")
+    sys.path.insert(p+"/Library/Quet/lite/LiteTime")
+    print("add all support")
 if platform.system() == "Windows":
     from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
     from Library.Quet.markdown import MarkDown,Interpreter
     from Library.Pixiv import Direct
     from Library.Web.wordpress import wp_XMLRPC
     from Library.Web.typecho import tc_XMLRPC
+    myLog=LiteLog.LiteLog(name=__name__)
+    myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
+    myMarkDown=MarkDown.MarkDown()
+    myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
+    myTime=LiteTime.LiteTime()
 else:
-    from lite import LiteLog,LiteConfig,LiteTime
-    from markdown import MarkDown,Interpreter
-    from Pixiv import Direct
-    from wordpress import wp_XMLRPC
-    from typecho import tc_XMLRPC
+    import LiteLog,LiteConfig,LiteTime
+    import MarkDown,Interpreter
+    import Direct
+    import wp_XMLRPC
+    import tc_XMLRPC
+    myLog=LiteLog.LiteLog(name=__name__)
+    myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
+    myMarkDown=MarkDown.MarkDown()
+    myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
+    myTime=LiteTime()
 from vaule import *
 from os import listdir, remove, system
 from shutil import move
 import markdown2
-myLog=LiteLog.LiteLog(name=__name__)
-myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
-myMarkDown=MarkDown.MarkDown()
-myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
-myTime=LiteTime.LiteTime()
 def init():
     global MyPixiv
     if "default.cfg" not in listdir():
