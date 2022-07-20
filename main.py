@@ -18,11 +18,18 @@ if platform.system() == "Linux":
         sys.path.append(p+"/Library/Web/typecho")
         sys.path.append(p+"/Library/Web/wordpress")
         print("add all support")
-from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
-from Library.Quet.markdown import MarkDown,Interpreter
-from Library.Pixiv import Direct
-from Library.Web.wordpress import wp_XMLRPC
-from Library.Web.typecho import tc_XMLRPC
+if platform.system() == "Windows":
+    from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
+    from Library.Quet.markdown import MarkDown,Interpreter
+    from Library.Pixiv import Direct
+    from Library.Web.wordpress import wp_XMLRPC
+    from Library.Web.typecho import tc_XMLRPC
+else:
+    from lite import LiteLog,LiteConfig,LiteTime
+    from markdown import MarkDown,Interpreter
+    from Pixiv import Direct
+    from wordpress import wp_XMLRPC
+    from typecho import tc_XMLRPC
 from vaule import *
 from os import listdir, remove, system
 from shutil import move
