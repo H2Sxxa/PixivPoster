@@ -3,7 +3,7 @@ title: Pixiv $date 精选
 date: $date $time
 ---
 
-:style>{'function':'illust','rpimgtext':'图片:illustid加载中','imgtext':':illustname'}
+:style>{"function":"illust","rpimgtext":"图片:illustid加载中","imgtext":":illustname"}
 
 <details>
 <summary>
