@@ -1,10 +1,12 @@
 #!/usr/bin/env python
-from platform import platform
-if platform == "Linux":
+import platform
+print(platform.system())
+if platform.system() == "Linux":
     import os
     import sys
     p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
     if p not in sys.path:
+        sys.path.append(p)
         sys.path.append(p+"/Library")
         sys.path.append(p+"/Library/Pixiv")
         sys.path.append(p+"/Library/Quet")
