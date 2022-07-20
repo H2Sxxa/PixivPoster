@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
 from Library.Quet.markdown import MarkDown,Interpreter
 from Library.Pixiv import Direct
