@@ -1,5 +1,11 @@
 #!/usr/bin/env python
-
+from platform import platform
+if platform == "Linux":
+    import os
+    import sys
+    p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
+    if p not in sys.path:
+        sys.path.append(p)
 from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
 from Library.Quet.markdown import MarkDown,Interpreter
 from Library.Pixiv import Direct
