@@ -6,9 +6,9 @@ if platform.system() == "Linux":
     import sys
     p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
     print(p+"/Library/Quet/lite/LiteLog")
-    sys.path.insert(p+"/Library/Quet/lite/LiteLog")
-    sys.path.insert(p+"/Library/Quet/lite/LiteConfig")
-    sys.path.insert(p+"/Library/Quet/lite/LiteTime")
+    sys.path.insert(0,p+"/Library/Quet/lite/LiteLog")
+    sys.path.insert(0,p+"/Library/Quet/lite/LiteConfig")
+    sys.path.insert(0,p+"/Library/Quet/lite/LiteTime")
     print("add all support")
 if platform.system() == "Windows":
     from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
@@ -16,22 +16,17 @@ if platform.system() == "Windows":
     from Library.Pixiv import Direct
     from Library.Web.wordpress import wp_XMLRPC
     from Library.Web.typecho import tc_XMLRPC
-    myLog=LiteLog.LiteLog(name=__name__)
-    myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
-    myMarkDown=MarkDown.MarkDown()
-    myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
-    myTime=LiteTime.LiteTime()
 else:
     import LiteLog,LiteConfig,LiteTime
     import MarkDown,Interpreter
     import Direct
     import wp_XMLRPC
     import tc_XMLRPC
-    myLog=LiteLog.LiteLog(name=__name__)
-    myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
-    myMarkDown=MarkDown.MarkDown()
-    myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
-    myTime=LiteTime()
+myLog=LiteLog.LiteLog(name=__name__)
+myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
+myMarkDown=MarkDown.MarkDown()
+myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
+myTime=LiteTime()
 from vaule import *
 from os import listdir, remove, system
 from shutil import move
