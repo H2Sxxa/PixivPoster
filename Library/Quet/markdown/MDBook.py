@@ -1,13 +1,6 @@
 from os import listdir,mkdir
 from os.path import isdir
 from urllib import parse
-import platform
-if platform.system() == "Linux":
-    import os
-    import sys
-    p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
-    sys.path.insert(1,p)
-    print("add "+p+" support")
 from . import MarkDown
 class MDBook():
     def __init__(self) -> None:

@@ -17,7 +17,7 @@ myLog=LiteLog.LiteLog(name=__name__)
 myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
 myMarkDown=MarkDown.MarkDown()
 myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
-myTime=LiteTime()
+myTime=LiteTime.LiteTime()
 from vaule import *
 from os import listdir, remove, system
 from shutil import move

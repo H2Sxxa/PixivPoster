@@ -1,11 +1,5 @@
 from colorama import Fore,init
-import platform
-if platform.system() == "Linux":
-    import os
-    import sys
-    sys.path.insert(1,os.path.dirname(os.path.abspath(__file__)))
-    print(os.path.dirname(os.path.abspath(__file__)))
-import LiteTime
+from . import LiteTime
 class LiteLog():
     #init
     def __init__(self,**kwargs):
