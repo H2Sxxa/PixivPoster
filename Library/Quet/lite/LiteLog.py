@@ -5,7 +5,7 @@ if platform.system() == "Linux":
     import sys
     sys.path.insert(1,os.path.dirname(os.path.abspath(__file__)))
     print(os.path.dirname(os.path.abspath(__file__)))
-from lite import LiteTime
+from . import LiteTime
 #import platform
 class LiteLog():
     #init
