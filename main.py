@@ -18,7 +18,7 @@ import markdown2
 myLog=LiteManager.LiteLog(name=__name__)
 myConfig=LiteManager.LiteConfig(litelog=True,bindlog=myLog)
 myMarkDown=MarkDownManager.MarkDown()
-myMarkDownInter=MarkDownManager.Interpreter(os.getcwd()+"/default.base.md")
+myMarkDownInter=MarkDownManager.Interpreter(getcwd()+"/default.base.md")
 myTime=LiteManager.LiteTime()
 def init():
     global MyPixiv
@@ -95,6 +95,7 @@ def postArticle():
             move(mdn,myConfig.readCfg("web_local_dir"))
         except Exception as e:
             myLog.errorlog(str(e))
+        
         system("cd \""+myConfig.readCfg("web_local_root")+"\" && "+myConfig.readCfg("web_local_deploy"))
 try:
     init()
