@@ -1,9 +1,16 @@
 from json import loads
 from requests import get
-from . import time
+import platform
+if platform.system() == "Linux":
+    import os
+    import sys
+    p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
+    sys.path.insert(1,p)
+    print("add "+p+"support")
+from . import ITime
 def pixiv(date=None):
     if date == None:
-        adate="date="+time.getdate()
+        adate="date="+ITime.getdate()
     else:
         adate="date="+date
     api=r"https://api.acgmx.com/public/ranking?ranking_type=illust&mode=daily&per_page=50&page=1&"+adate

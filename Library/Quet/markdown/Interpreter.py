@@ -1,5 +1,12 @@
+import platform
+if platform.system() == "Linux":
+    import os
+    import sys
+    p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
+    sys.path.insert(1,p)
+    print("add "+p+"support")
 from json import loads
-import MarkDown
+from . import MarkDown
 
 class Interpreter():
     def __init__(self,basemdlocation:str="./default.base.md") -> None:

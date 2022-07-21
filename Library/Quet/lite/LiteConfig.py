@@ -1,4 +1,11 @@
-import LiteLog
+import platform
+if platform.system() == "Linux":
+    import os
+    import sys
+    p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
+    sys.path.insert(1,p)
+    print("add "+p+"support")
+from . import LiteLog
 from json import dumps,loads
 class LiteConfig():
     def __init__(self,ConfigLocation:str="./default.cfg",ConfigSignLocation:str="./default.scfg",**kwargs) -> None:
