@@ -6,7 +6,8 @@ if platform.system() == "Linux":
     import sys
     p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
     #print(p+"/Library/Quet/lite")
-    #sys.path.insert(1,p+"/Library/Quet/lite")
+    sys.path.insert(1,p)
+    '''
     os.system("export PYTHONPATH="+p+":$PYTHONPATH")
     os.system("export PYTHONPATH="+p+"/Library/Quet/lite"+":$PYTHONPATH")
     os.system("export PYTHONPATH="+p+"/Library/Quet/markdown"+":$PYTHONPATH")
@@ -14,6 +15,7 @@ if platform.system() == "Linux":
     os.system("export PYTHONPATH="+p+"/Library/Web"+":$PYTHONPATH")
     os.system("export PYTHONPATH="+p+"/Library/Web/wordpress"+":$PYTHONPATH")
     os.system("export PYTHONPATH="+p+"/Library/Web/typecho"+":$PYTHONPATH")
+    '''
     print("add all support")
 
 from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
