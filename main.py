@@ -11,15 +11,15 @@ from Library.Quet import MarkDownManager
 from Library.Pixiv import Direct
 from Library.Web.wordpress import wp_XMLRPC
 from Library.Web.typecho import tc_XMLRPC
+from vaule import *
+from os import listdir, remove, system,getcwd
+from shutil import move
+import markdown2
 myLog=LiteManager.LiteLog(name=__name__)
 myConfig=LiteManager.LiteConfig(litelog=True,bindlog=myLog)
 myMarkDown=MarkDownManager.MarkDown()
-myMarkDownInter=MarkDownManager.Interpreter(".\default.base.md")
+myMarkDownInter=MarkDownManager.Interpreter(os.getcwd()+"\default.base.md")
 myTime=LiteManager.LiteTime()
-from vaule import *
-from os import listdir, remove, system
-from shutil import move
-import markdown2
 def init():
     global MyPixiv
     if "default.cfg" not in listdir():
