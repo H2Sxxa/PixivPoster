@@ -1,9 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./Library/Quet/lite",
-        "./Library/Quet/markdown",
-        "./Library/Pixiv",
-        "./Library/Web/wordpress",
-        "./Library/Web/typecho"
-    ]
-}

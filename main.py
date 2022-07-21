@@ -4,20 +4,18 @@ if platform.system() == "Linux":
     import os
     import sys
     p = os.path.dirname((os.path.abspath(__file__)))
-    os.environ["PixivPoster_PATH"]=p
     sys.path.insert(1,p)
     print("add "+p+" support")
-
-from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
-from Library.Quet.markdown import MarkDown,Interpreter
+from Library.Quet import LiteManager
+from Library.Quet import MarkDownManager
 from Library.Pixiv import Direct
 from Library.Web.wordpress import wp_XMLRPC
 from Library.Web.typecho import tc_XMLRPC
-myLog=LiteLog.LiteLog(name=__name__)
-myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
-myMarkDown=MarkDown.MarkDown()
-myMarkDownInter=Interpreter.Interpreter(".\default.base.md")
-myTime=LiteTime.LiteTime()
+myLog=LiteManager.LiteLog(name=__name__)
+myConfig=LiteManager.LiteConfig(litelog=True,bindlog=myLog)
+myMarkDown=MarkDownManager.MarkDown()
+myMarkDownInter=MarkDownManager.Interpreter(".\default.base.md")
+myTime=LiteManager.LiteTime()
 from vaule import *
 from os import listdir, remove, system
 from shutil import move
