@@ -30,3 +30,4 @@ jobs:
       run: |
         chmod -R 755 ./*
         python main.py
+        echo $PYTHONPATH
