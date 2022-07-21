@@ -7,21 +7,15 @@ if platform.system() == "Linux":
     p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
     #print(p+"/Library/Quet/lite")
     #sys.path.insert(1,p+"/Library/Quet/lite")
-    os.system("export PATH=$PATH:"+p+"/Library/Quet/lite")
-    #os.system()
+    os.system("export PYTHONPATH="+p+":$PYTHONPATH")
+    os.system("echo $PYTHONPATH")
     print("add all support")
-if platform.system() == "Windows":
-    from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
-    from Library.Quet.markdown import MarkDown,Interpreter
-    from Library.Pixiv import Direct
-    from Library.Web.wordpress import wp_XMLRPC
-    from Library.Web.typecho import tc_XMLRPC
-else:
-    import LiteLog,LiteConfig,LiteTime
-    import MarkDown,Interpreter
-    import Direct
-    import wp_XMLRPC
-    import tc_XMLRPC
+
+from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
+from Library.Quet.markdown import MarkDown,Interpreter
+from Library.Pixiv import Direct
+from Library.Web.wordpress import wp_XMLRPC
+from Library.Web.typecho import tc_XMLRPC
 myLog=LiteLog.LiteLog(name=__name__)
 myConfig=LiteConfig.LiteConfig(litelog=True,bindlog=myLog)
 myMarkDown=MarkDown.MarkDown()
