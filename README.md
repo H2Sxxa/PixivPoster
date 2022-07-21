@@ -64,9 +64,18 @@ $br 换行符（不推荐）
 :illustid 当前作品ID
 
 #TODO illusttag
-### 创建一个样式
-必须为一行，格式为:style>JSON
+### 创建样式
+注意：所有样式必须为一行
+
+#### 部分样式
+:style>{"function":作用于,键1:值1,键2:值2...}
 
 ```base.md
 :style>{"function":"illust","rpimgtext":"PID:illustid","imgtext":":illustname"}
+```
+#### 主体样式
+?>img,最大图片数(None为全部),主体(部分变量生效)<?
+
+```base.md
+?>img,None,## Title [:illustname](https://www.pixiv.net/artworks/:illustid)$n$n### Artist [:artistname](https://www.pixiv.net/users/:artistid)$n$n:illust$n$n<?
 ```

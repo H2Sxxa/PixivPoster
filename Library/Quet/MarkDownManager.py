@@ -182,6 +182,8 @@ class Interpreter():
                     self.maxillust=int(self.maxillust)
                 
                 for illustid,illustname,artistname,artistid in zip(self.illustid,self.illustname,self.artistname,self.artistid):
+                    if self.illustid.index(illustid)+1 > self.maxillust:
+                        break
                     oneindex=self.illustid.index(illustid)
                     oneobj=self.illustsample.replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid))
                     finimg=""

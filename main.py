@@ -56,6 +56,16 @@ def init():
         myConfig.saveCfg()
         loadcfgsign()
     else:
+        if myConfig.readCfg("sock_proxy") != "":
+            if myConfig.readCfg("sni"):
+                MyPixiv=Direct.Direct(sock=myConfig.readCfg("sock_proxy"),sni=True)
+            else:
+                MyPixiv=Direct.Direct(sock=myConfig.readCfg("sock_proxy"))
+        else:
+            if myConfig.readCfg("sni"):
+                MyPixiv=Direct.Direct(sni=True)
+            else:
+                MyPixiv=Direct.Direct()
         if myConfig.readCfg("refresh_token") == "":
             auth=MyPixiv.login()
             myConfig.modifyCfg("refresh_token",auth["refresh_token"])
