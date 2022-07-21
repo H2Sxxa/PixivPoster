@@ -81,8 +81,8 @@ class Direct():
             alllist.append(onelist)
             onelist=[]
         return alllist
-    def extarctSort(self,adict:dict,key:str) -> list:
+    def extarctSort(self,alist:list,key:str) -> list:
         finlist=[]
-        for i in adict:
+        for i in alist:
             finlist.append(i[key])
         return finlist

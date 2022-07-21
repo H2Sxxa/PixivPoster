@@ -111,6 +111,7 @@ class MarkDown():
         else:
             return "![](%s)" % link
     def setImgSlide(self,markdownImgList:list):
+        slide=""
         for img in markdownImgList:
             if img != markdownImgList[-1]:
                 slide=slide+img+","
@@ -132,7 +133,17 @@ class Interpreter():
         self.sample=open(basemdlocation,"r",encoding="utf-8").read()
         self.sample=self.setVar(self.sample)
         self.samplelist=self.sample.splitlines()
-        self.mystyle={"illust":{"rpimgtext":"","imgtext":""}}
+        self.mystyle={
+            "illust":
+                {
+                    "rpimgtext":"",
+                    "imgtext":""
+                },
+            "illustshow":
+                {
+                    "ImgSlide":False
+                }
+            }
         self.outlist=[]
     def loadall(self,**infodict):
         '''
@@ -143,13 +154,13 @@ class Interpreter():
             illustname:strlist
             illustid:strlist
             #TODO illusttag:[strlist,int or None(all tag)]
-        '''  
+        '''
         self.artistname=infodict["artistname"]
         self.artistid=infodict["artistid"]
         self.illust=infodict["illust"]
         self.illustname=infodict["illustname"]
         self.illustid=infodict["illustid"]
-        #self.illusttag=infodict["illusttag"]
+        self.illusttag=infodict["illusttag"]
         self.mainthread()
     def mainthread(self):
         for obj in self.samplelist:
@@ -170,6 +181,14 @@ class Interpreter():
                     else:
                         imgtext = ""
                     self.mystyle["illust"]={"rpimgtext":rpimgtext,"imgtext":imgtext}
+                if styledict["function"] == "illustshow":
+                    if "ImgSlide" in styledict.keys():
+                        ImgSlide = styledict["ImgSlide"]
+                        if bool != type(ImgSlide):
+                            ImgSlide=False
+                    else:
+                        ImgSlide = False
+                    self.mystyle["illustshow"]={"ImgSlide":ImgSlide}
             if "?>img," in obj:
                 objself=obj.split(">img,")[1].split("<?")[0]
                 objself="?>img,"+objself+"<?"
@@ -193,6 +212,8 @@ class Interpreter():
                             finimg=img
                         else:
                             finimg=finimg+"\n"+img
+                    if self.mystyle["illustshow"]["ImgSlide"]:
+                        finimg=self.markdown.setImgSlide(finimg.splitlines())
                     oneobj=oneobj.replace(":illust",finimg)
                     self.outlist.append(oneobj)
                 fin=""

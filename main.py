@@ -83,7 +83,7 @@ def getRank():
     return MyPixiv.sortRank(MyPixiv.getRank(myConfig.readCfg("pixiv_mode")))
 def genMarkdown():
     myLog.infolog("Start to generate markdown")
-    myMarkDownInter.loadall(artistname=artistlist,illust=sortillustlist,illustid=illustidlist,illustname=titlelist,artistid=artistidlist)
+    myMarkDownInter.loadall(artistname=artistlist,illust=sortillustlist,illustid=illustidlist,illustname=titlelist,artistid=artistidlist,illusttag=puretagslist)
     mdname=myTime.getdate()+" "+myConfig.readCfg("pixiv_mode")+".md"
     myMarkDownInter.sampleout(mdname)
     myLog.infolog("Congratulate!All generate finished!")
@@ -105,11 +105,18 @@ def postArticle():
             move(mdn,myConfig.readCfg("web_local_dir"))
         except Exception as e:
             myLog.errorlog(str(e))
-        
         system("cd \""+myConfig.readCfg("web_local_root")+"\" && "+myConfig.readCfg("web_local_deploy"))
 try:
     init()
     illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()
+    #tag [[{'name':'','translated_name':''},{}],...]
+    #rawtagslist=MyPixiv.extarctSort()
+    illusttags=[]
+    tr_illusttags=[]
+    for s1tagslist in tagslist:
+        illusttags.append(MyPixiv.extarctSort(s1tagslist,"name"))
+        tr_illusttags.append(MyPixiv.extarctSort(s1tagslist,"translated_name"))
+    puretagslist=[illusttags,tr_illusttags]
     urllist=MyPixiv.sort2Rank(pagecount,illustidlist,titlelist)
     pureurllist=MyPixiv.extarctSort(urllist,"url")
     sortillustlist=MyPixiv.sortillustlink(illustidlist,pureurllist)
