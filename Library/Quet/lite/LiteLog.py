@@ -3,9 +3,8 @@ import platform
 if platform.system() == "Linux":
     import os
     import sys
-    p = os.path.dirname((os.path.abspath(__file__)))
-    sys.path.insert(1,p)
-    print("add "+p+" support")
+    sys.path.insert(1,os.environ["PixivPoster_PATH"])
+    print(os.environ["PixivPoster_PATH"])
 from Library.Quet.lite import LiteTime
 #import platform
 class LiteLog():
