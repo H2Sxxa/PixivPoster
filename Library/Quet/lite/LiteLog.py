@@ -6,7 +6,7 @@ if platform.system() == "Linux":
     p = os.path.dirname((os.path.abspath(__file__)))
     sys.path.insert(1,p)
     print("add "+p+" support")
-from . import LiteTime
+from Library.Quet.lite import LiteTime
 #import platform
 class LiteLog():
     #init
