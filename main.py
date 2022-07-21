@@ -5,8 +5,10 @@ if platform.system() == "Linux":
     import os
     import sys
     p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
-    print(p+"/Library/Quet/lite")
-    sys.path.insert(1,p+"/Library/Quet/lite")
+    #print(p+"/Library/Quet/lite")
+    #sys.path.insert(1,p+"/Library/Quet/lite")
+    os.system("export PATH=$PATH:"+p+"/Library/Quet/lite")
+    #os.system()
     print("add all support")
 if platform.system() == "Windows":
     from Library.Quet.lite import LiteLog,LiteConfig,LiteTime
