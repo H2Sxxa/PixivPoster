@@ -63,9 +63,9 @@ $br 换行符（不推荐）
 
 :illustid 当前作品ID
 
-#TODO illusttag
+TODO illusttag
 ### 创建样式
-注意：所有样式必须为一行
+:warning: 注意：所有样式必须为一行
 
 #### 部分样式
 :style>{"function":作用于,键1:值1,键2:值2...}
