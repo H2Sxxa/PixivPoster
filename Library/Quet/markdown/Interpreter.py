@@ -1,5 +1,5 @@
 from json import loads
-from . import MarkDown
+import MarkDown
 
 class Interpreter():
     def __init__(self,basemdlocation:str="./default.base.md") -> None:

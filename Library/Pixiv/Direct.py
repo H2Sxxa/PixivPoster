@@ -1,5 +1,5 @@
-from . import Api
-from . import tool
+import Api
+import tool
 from pixivpy_async.sync import *
 
 class Direct():

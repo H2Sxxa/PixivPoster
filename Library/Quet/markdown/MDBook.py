@@ -1,7 +1,7 @@
 from os import listdir,mkdir
 from os.path import isdir
 from urllib import parse
-from . import MarkDown
+import MarkDown
 class MDBook():
     def __init__(self) -> None:
         '''

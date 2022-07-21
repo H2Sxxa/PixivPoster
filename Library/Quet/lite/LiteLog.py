@@ -1,5 +1,5 @@
 from colorama import Fore,init
-from . import LiteTime
+import LiteTime
 #import platform
 class LiteLog():
     #init
