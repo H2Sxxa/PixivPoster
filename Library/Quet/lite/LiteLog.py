@@ -3,7 +3,7 @@ import platform
 if platform.system() == "Linux":
     import os
     import sys
-    p = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
+    p = os.path.dirname((os.path.abspath(__file__)))
     sys.path.insert(1,p)
     print("add "+p+" support")
 from . import LiteTime
