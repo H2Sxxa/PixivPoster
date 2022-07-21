@@ -5,7 +5,7 @@ if platform.system() == "Linux":
     import sys
     sys.path.insert(1,os.environ["PixivPoster_PATH"])
     print(os.environ["PixivPoster_PATH"])
-from Library.Quet.lite import LiteTime
+from lite import LiteTime
 #import platform
 class LiteLog():
     #init
