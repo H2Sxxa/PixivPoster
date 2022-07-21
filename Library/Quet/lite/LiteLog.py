@@ -3,8 +3,8 @@ import platform
 if platform.system() == "Linux":
     import os
     import sys
-    sys.path.insert(1,os.environ["PixivPoster_PATH"])
-    print(os.environ["PixivPoster_PATH"])
+    sys.path.insert(1,os.path.dirname(os.path.abspath(__file__)))
+    print(os.path.dirname(os.path.abspath(__file__)))
 from lite import LiteTime
 #import platform
 class LiteLog():
