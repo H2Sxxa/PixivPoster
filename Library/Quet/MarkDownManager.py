@@ -141,7 +141,8 @@ class Interpreter():
                 },
             "illustshow":
                 {
-                    "ImgSlide":False
+                    "ImgSlide":False,
+                    "prefix":""
                 },
             "illusttags":
                 {
@@ -207,7 +208,11 @@ class Interpreter():
                             ImgSlide=False
                     else:
                         ImgSlide = False
-                    self.mystyle["illustshow"]={"ImgSlide":ImgSlide}
+                    if "prefix" in styledict.keys():
+                        prefix = styledict["prefix"]
+                    else:
+                        prefix =""
+                    self.mystyle["illustshow"]={"ImgSlide":ImgSlide,"prefix":prefix}
                 if styledict["function"] == "illusttags":
                     if "illustmaxtag" in styledict.keys():
                         illustmaxtag = styledict["illustmaxtag"]
@@ -243,19 +248,19 @@ class Interpreter():
                         fintaglist=self.rand2sample(illusttag,self.mystyle["illusttags"]["illustmaxtag"])
                     fintag=""
                     for atag in fintaglist:
-                        if atag != fintaglist[0]:
-                            fintag = atag+" #"+fintag
-                        else:
+                        if fintaglist.index(atag) ==0:
                             fintag = "#"+atag
+                        else:
+                            fintag = atag+" #"+fintag
                     oneindex=self.illustid.index(illustid)
                     oneobj=self.illustsample.replace(":tag",fintag).replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid))
                     finimg=""
                     for img in self.illust[oneindex]:
                         img=self.markdown.setImg(img,imgtext=self.mystyle["illust"]["imgtext"].replace(":tag",fintag).replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid)),rpimgtext=self.mystyle["illust"]["rpimgtext"].replace(":tag",fintag).replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid)))
                         if finimg == "":
-                            finimg=img
+                            finimg=self.mystyle["illustshow"]["prefix"]+img
                         else:
-                            finimg=finimg+"\n"+img
+                            finimg=finimg+"\n"+self.mystyle["illustshow"]["prefix"]+img
                     if self.mystyle["illustshow"]["ImgSlide"]:
                         finimg=self.markdown.setImgSlide(finimg.splitlines())
                     oneobj=oneobj.replace(":illust",finimg)

@@ -11,6 +11,7 @@ from Library.Quet import MarkDownManager
 from Library.Pixiv import Direct
 from Library.Web.wordpress import wp_XMLRPC
 from Library.Web.typecho import tc_XMLRPC
+from Library.Web.flaurm.api import Flarum
 from vaule import *
 from os import listdir, remove, system,getcwd
 from shutil import move
@@ -24,13 +25,14 @@ def init():
     global MyPixiv
     if "default.cfg" not in listdir():
         myLog.infolog("Init the config now")
-        myConfig.addCfg("web_type","wordpress")
+        myConfig.addCfg("web_type","local")
         myConfig.addCfg("web_local_name","blog")
         myConfig.addCfg("web_local_dir","./web/hexo/$web_local_name$/source/_posts")
         myConfig.addCfg("web_local_root","./web/hexo/$web_local_name$")
         myConfig.addCfg("web_local_deploy","_deploy.bat")
         myConfig.addCfg("web_address","https://localhost:6800/xmlrpc.php")
         myConfig.addCfg("web_title","Pixiv $date choiceness")
+        myConfig.addCfg("web_flarum_tagid","1")
         myConfig.addCfg("web_account","admin@mail.com")
         myConfig.addCfg("web_password","YourPassword")
         myConfig.addCfg("clean_cache",False)
@@ -97,7 +99,7 @@ def postArticle():
         myLog.infolog("Post successfully,the article id is "+str(articleid))
     if webtype == "typecho":
         myClient=tc_XMLRPC.tc_XMLRPC(myConfig.readCfg("web_address"),myConfig.readCfg("web_account"),myConfig.readCfg("web_password"))
-        myClient.setArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),content=hmdnc)
+        myClient.setArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),content=mdnc)
         articleid=myClient.postArticle()
         myLog.infolog("Post successfully,the article id is "+str(articleid))
     if webtype == "local":
@@ -106,6 +108,9 @@ def postArticle():
         except Exception as e:
             myLog.errorlog(str(e))
         system("cd \""+myConfig.readCfg("web_local_root")+"\" && "+myConfig.readCfg("web_local_deploy"))
+    if webtype == "flarum":
+        myClient=Flarum(myConfig.readCfg("web_account"),myConfig.readCfg("web_password"),myConfig.readCfg("web_address"))
+        myClient.postArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),mdnc,myConfig.readCfg("web_flarum_tagid"))
 try:
     init()
     illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()

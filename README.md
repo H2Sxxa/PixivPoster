@@ -6,7 +6,7 @@
 使用前请先删除default.cfg来恢复默认配置
 
 ## 自定义配置
-web_type: 有local,wordpress,typecho三种选项
+web_type: 有local,wordpress,typecho,flarum多种选项
 
 web_local_name: 变量名称用于下方dir和root
 
@@ -19,6 +19,8 @@ web_local_deploy: web_local_root下脚本名称
 web_address: 网站地址(xmlrpc)，.../xmlrpc.php
 
 web_title: 自定义标题 $date 为日期
+
+web_flarum_tagid: flarum下板块的ID
 
 web_account: wordpress,typecho...账户
 
@@ -63,19 +65,50 @@ $br 换行符（不推荐）
 
 :illustid 当前作品ID
 
-TODO illusttag
+:tag 标签，建议设计样式后使用
 ### 创建样式
 :warning: 注意：所有样式必须为一行
 
 #### 部分样式
-:style>{"function":作用于,键1:值1,键2:值2...}
+:style>{"function":作用域,键1:值1,键2:值2...}
+
+illust
+
+ - rpimgtext 替换文本
+
+ - imgtext 悬浮文本
 
 ```base.md
 :style>{"function":"illust","rpimgtext":"PID:illustid","imgtext":":illustname"}
 ```
+
+illusttags
+
+ - tagshow #todo
+
+ - illustmaxtag 主体样式中tag数量
+
+ - rand_maxtag :tag标签最大tag数量[1,2,3]
+
+ - tagslang 不建议更改
+
+```base.md
+:style>{"function":"illusttags","tagshow":"#todo","illustmaxtag":5,"rand_maxtag":3,"tagslang": 0}
+```
+
+illustshow
+
+ - prefix 每张图片前添加的文本
+ 
+ - ImgSlide 不建议使用
+
+```
+:style>{"function":"illustshow","prefix":">! "}
+```
+
 #### 主体样式
 ?>img,最大图片数(None为全部),主体(部分变量生效)<?
 
 ```base.md
-?>img,None,## Title [:illustname](https://www.pixiv.net/artworks/:illustid)$n$n### Artist [:artistname](https://www.pixiv.net/users/:artistid)$n$n:illust$n$n<?
+?>img,None,>! ## Title [:illustname](https://www.pixiv.net/artworks/:illustid)$n>!$n>! ### :tag$n>!$n>! ### Artist [:artistname](https://www.pixiv.net/users/:artistid)$n>!$n:illust$n>!$n<?
 ```
