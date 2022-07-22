@@ -126,7 +126,7 @@ class MarkDown():
 
 
 from json import loads
-
+from random import sample as rd_sample
 class Interpreter():
     def __init__(self,basemdlocation:str="./default.base.md") -> None:
         self.markdown=MarkDown()
@@ -142,9 +142,28 @@ class Interpreter():
             "illustshow":
                 {
                     "ImgSlide":False
+                },
+            "illusttags":
+                {
+                    "tagshow":"#todo",
+                    "illustmaxtag":None,
+                    "rand_maxtag":None,
+                    "tagslang": 0
                 }
             }
         self.outlist=[]
+    def rand2sample(self,target:list,k:int) -> list:
+        if k == None:
+            return target
+        if len(target) > k:
+            return rd_sample(target,k)
+        else:
+            return target
+    def getrandtag(self)->list:
+        fintag=[]
+        for tags in self.taglist:
+            fintag.extend(tags)
+        return  self.rand2sample(fintag,self.mystyle["illusttags"]["illustmaxtag"])
     def loadall(self,**infodict):
         '''
         image(dict):
@@ -153,7 +172,7 @@ class Interpreter():
             illust:strlist(the link of the illust)[(p1,p2,...),(p1,p2,...),...]
             illustname:strlist
             illustid:strlist
-            #TODO illusttag:[strlist,int or None(all tag)]
+            illusttag:[strlist[[],[],...](raw tag),strlist[[],[],...](tr tag)]
         '''
         self.artistname=infodict["artistname"]
         self.artistid=infodict["artistid"]
@@ -189,6 +208,20 @@ class Interpreter():
                     else:
                         ImgSlide = False
                     self.mystyle["illustshow"]={"ImgSlide":ImgSlide}
+                if styledict["function"] == "illusttags":
+                    if "illustmaxtag" in styledict.keys():
+                        illustmaxtag = styledict["illustmaxtag"]
+                    else:
+                        illustmaxtag = None
+                    if "rand_maxtag" in styledict.keys():
+                        rand_maxtag = styledict["rand_maxtag"]
+                    else:
+                        rand_maxtag = None
+                    if "tagslang" in styledict.keys():
+                        tagslang = styledict["tagslang"]
+                    else:
+                        tagslang = 0
+                    self.mystyle["illusttags"]={"illustmaxtag":illustmaxtag,"rand_maxtag":rand_maxtag,"tagslang":tagslang}
             if "?>img," in obj:
                 objself=obj.split(">img,")[1].split("<?")[0]
                 objself="?>img,"+objself+"<?"
@@ -199,15 +232,26 @@ class Interpreter():
                     self.maxillust=len(self.illustid)
                 else:
                     self.maxillust=int(self.maxillust)
-                
-                for illustid,illustname,artistname,artistid in zip(self.illustid,self.illustname,self.artistname,self.artistid):
+                taglist=self.illusttag[self.mystyle["illusttags"]["tagslang"]]
+                self.taglist=taglist
+                for illustid,illustname,artistname,artistid,illusttag in zip(self.illustid,self.illustname,self.artistname,self.artistid,taglist):
                     if self.illustid.index(illustid)+1 > self.maxillust:
                         break
+                    if self.mystyle["illusttags"]["illustmaxtag"] == None:
+                        fintaglist=illusttag
+                    else:
+                        fintaglist=self.rand2sample(illusttag,self.mystyle["illusttags"]["illustmaxtag"])
+                    fintag=""
+                    for atag in fintaglist:
+                        if atag != fintaglist[0]:
+                            fintag = atag+" #"+fintag
+                        else:
+                            fintag = "#"+atag
                     oneindex=self.illustid.index(illustid)
-                    oneobj=self.illustsample.replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid))
+                    oneobj=self.illustsample.replace(":tag",fintag).replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid))
                     finimg=""
                     for img in self.illust[oneindex]:
-                        img=self.markdown.setImg(img,imgtext=self.mystyle["illust"]["imgtext"].replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid)),rpimgtext=self.mystyle["illust"]["rpimgtext"].replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid)))
+                        img=self.markdown.setImg(img,imgtext=self.mystyle["illust"]["imgtext"].replace(":tag",fintag).replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid)),rpimgtext=self.mystyle["illust"]["rpimgtext"].replace(":tag",fintag).replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid)))
                         if finimg == "":
                             finimg=img
                         else:
@@ -234,7 +278,7 @@ class Interpreter():
         return obj
     def sampleout(self,location):
         with open(location,"w",encoding="utf-8") as f:
-            f.write(self.sample.replace("$n","\n"))
+            f.write(self.sample.replace("$n","\n").replace("$tag",str(self.getrandtag())))
 
 
 from os import listdir,mkdir
