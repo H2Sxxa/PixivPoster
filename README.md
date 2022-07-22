@@ -1,5 +1,5 @@
 # PixivPoster
-支持WordPress、Typecho、Hexo...网站的每日Pixiv TOP50页面创建
+支持WordPress、Typecho、Hexo、Flarum网站的每日Pixiv TOP50文章发布
 
 高度可自定义的配置，自定义文章样式表
 
