@@ -99,10 +99,10 @@ illusttags
 illustshow
 
  - prefix 每张图片前添加的文本
- 
+
  - ImgSlide 不建议使用
 
-```
+```base.md
 :style>{"function":"illustshow","prefix":">! "}
 ```
 
