@@ -251,7 +251,7 @@ class Interpreter():
                         if fintaglist.index(atag) ==0:
                             fintag = "#"+atag
                         else:
-                            fintag = atag+" #"+fintag
+                            fintag = "#"+atag+" "+fintag
                     oneindex=self.illustid.index(illustid)
                     oneobj=self.illustsample.replace(":tag",fintag).replace(":illustid",str(illustid)).replace(":illustname",illustname).replace(":artistname",artistname["name"]).replace(":artistid",str(artistid))
                     finimg=""

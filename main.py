@@ -114,8 +114,6 @@ def postArticle():
 try:
     init()
     illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()
-    #tag [[{'name':'','translated_name':''},{}],...]
-    #rawtagslist=MyPixiv.extarctSort()
     illusttags=[]
     tr_illusttags=[]
     for s1tagslist in tagslist:
