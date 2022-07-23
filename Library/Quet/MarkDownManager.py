@@ -228,6 +228,7 @@ class Interpreter():
                         tagslang = 0
                     self.mystyle["illusttags"]={"illustmaxtag":illustmaxtag,"rand_maxtag":rand_maxtag,"tagslang":tagslang}
             if "?>img," in obj:
+                self.outlist=[]
                 objself=obj.split(">img,")[1].split("<?")[0]
                 objself="?>img,"+objself+"<?"
                 objlist=obj.split(">img,")[1].split("<?")[0].split(",")

@@ -58,7 +58,6 @@ class Task(_Task):
             if "name" not in task.keys():
                 task.update({"name":"%s:%s" % (uuid4(),task["task"])})
             if task["task"] in self.taskdict.keys():
-                print(task)
                 try:
                     if self.taskargs[task["task"]+"_args"] == "$args":
                         res=self.taskdict[task["task"]](task["args"])

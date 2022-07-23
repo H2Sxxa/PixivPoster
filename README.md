@@ -4,6 +4,31 @@
 高度可自定义的配置，自定义文章样式表
 
 使用前请先删除default.cfg来恢复默认配置
+## 快速开始
+编辑task.txt改为以下内容，然后运行main.py
+
+```json
+{"task":"use_config","name":"local delopy","args":"./setting/flarum"}
+
+{"task":"run","name":"local run"}
+```
+## 新建配置
+
+1. 在setting包中新建名字为配置名称(例如poster)的文件夹
+
+2. 在你刚才创建的文件夹中新建base.md(必须)和config.cfg(如果找不到，程序将自动生成)
+
+3. 编辑base.md改为你需要的样式，例子查看setting/default/base.md，具体查看下方自定义文章
+
+4. 手动编辑config.cfg改为你需要的配置，具体看下方自定义配置
+
+5. 编辑task.txt加入以下内容后即可
+
+```json
+{"task":"use_config","name":"任务名称（随便取）","args":".../setting/你的文件夹名称（最好使用绝对路径）"} #读取配置
+
+{"task":"run","name":"任务名称（随便取）"} #运行
+```
 
 ## 自定义配置
 web_type: 有local,wordpress,typecho,flarum多种选项

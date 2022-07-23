@@ -144,7 +144,7 @@ def run():
         myLog.errorlog(str(e))
 initTasks(getcwd()+"/task.txt")
 myTask.runTask()
-for k,v in myTask.getTasks().items:
+for k,v in myTask.getTasks().items():
     myLog.infolog("[%s]%s" % (k,v))
 try:
     if myConfig.readCfg("savelog") == True:
