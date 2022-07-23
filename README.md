@@ -3,15 +3,17 @@
 
 高度可自定义的配置，自定义文章样式表
 
-使用前请先删除default.cfg来恢复默认配置
 ## 快速开始
-编辑task.txt改为以下内容，然后运行main.py
+编辑task.txt改为以下内容，然后运行main.py，根据提示查看教程填入Pixiv Code回车即可
 
 ```json
 {"task":"use_config","name":"local delopy","args":"./setting/flarum"}
 
 {"task":"run","name":"local run"}
 ```
+
+如遇任何问题，请先尝试删除.cfg文件再次运行，如果还是不行，将.cfg内的savelog改为true，在issue粘贴日志即可
+
 ## 新建配置
 
 1. 在setting包中新建名字为配置名称(例如poster)的文件夹
