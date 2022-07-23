@@ -38,7 +38,10 @@ class Task(_Task):
         self.taskresult={}
         self.tasklist=[]
         for task in tasklist:
-            self.tasklist.append(loads(task))
+            try:
+                self.tasklist.append(loads(task))
+            except:
+                pass
     def getTasks(self):
         super().getTasks()
         return self.taskresult
