@@ -6,6 +6,7 @@ if platform.system() == "Linux":
     p = os.path.dirname((os.path.abspath(__file__)))
     sys.path.insert(1,p)
     print("add "+p+" support")
+from Library.Quet import TaskManager
 from Library.Quet import LiteManager
 from Library.Quet import MarkDownManager
 from Library.Pixiv import Direct
@@ -17,13 +18,21 @@ from os import listdir, remove, system,getcwd
 from shutil import move
 import markdown2
 myLog=LiteManager.LiteLog(name=__name__)
-myConfig=LiteManager.LiteConfig(litelog=True,bindlog=myLog)
-myMarkDown=MarkDownManager.MarkDown()
-myMarkDownInter=MarkDownManager.Interpreter(getcwd()+"/default.base.md")
 myTime=LiteManager.LiteTime()
-def init():
+myMarkDown=MarkDownManager.MarkDown()
+def initTasks(taskfile):
+    global myTask
+    myTask=TaskManager.Task(taskfile)
+    myTask.setArgsTasks("use_config",initVar)
+    myTask.setTask("run",run)
+def initVar(Location):
+    global myConfig,myMarkDownInter
+    myConfig = LiteManager.LiteConfig(Location+"/config.cfg",litelog=True,bindlog=myLog)
+    myMarkDownInter=MarkDownManager.Interpreter(Location+"/base.md")
+    init(Location=Location)
+def init(Location):
     global MyPixiv
-    if "default.cfg" not in listdir():
+    if "config.cfg" not in listdir(Location):
         myLog.infolog("Init the config now")
         myConfig.addCfg("web_type","local")
         myConfig.addCfg("web_local_name","blog")
@@ -111,28 +120,33 @@ def postArticle():
     if webtype == "flarum":
         myClient=Flarum(myConfig.readCfg("web_account"),myConfig.readCfg("web_password"),myConfig.readCfg("web_address"))
         myClient.postArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),mdnc,myConfig.readCfg("web_flarum_tagid"))
+def run():
+    global mdnc,mdn,illustidlist,titlelist,pagecount,tagslist,artistlist,hmdnc,puretagslist,sortillustlist,artistidlist
+    try:
+        illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()
+        illusttags=[]
+        tr_illusttags=[]
+        for s1tagslist in tagslist:
+            illusttags.append(MyPixiv.extarctSort(s1tagslist,"name"))
+            tr_illusttags.append(MyPixiv.extarctSort(s1tagslist,"translated_name"))
+        puretagslist=[illusttags,tr_illusttags]
+        urllist=MyPixiv.sort2Rank(pagecount,illustidlist,titlelist)
+        pureurllist=MyPixiv.extarctSort(urllist,"url")
+        sortillustlist=MyPixiv.sortillustlink(illustidlist,pureurllist)
+        artistidlist=MyPixiv.extarctSort(artistlist,"id")
+        mdn=genMarkdown()
+        mdnc=open(mdn,"r",encoding="utf-8").read()
+        hmdnc=str(markdown2.markdown_path(mdn))
+        with open(mdn.replace(".md",".html"),"w",encoding="utf-8") as f:
+            f.write(hmdnc)
+        postArticle()
+    except Exception as e:
+        myLog.errorlog(str(e))
+initTasks(getcwd()+"/task.txt")
+myTask.runTask()
+for k,v in myTask.getTasks().items:
+    myLog.infolog("[%s]%s" % (k,v))
 try:
-    init()
-    illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()
-    illusttags=[]
-    tr_illusttags=[]
-    for s1tagslist in tagslist:
-        illusttags.append(MyPixiv.extarctSort(s1tagslist,"name"))
-        tr_illusttags.append(MyPixiv.extarctSort(s1tagslist,"translated_name"))
-    puretagslist=[illusttags,tr_illusttags]
-    urllist=MyPixiv.sort2Rank(pagecount,illustidlist,titlelist)
-    pureurllist=MyPixiv.extarctSort(urllist,"url")
-    sortillustlist=MyPixiv.sortillustlink(illustidlist,pureurllist)
-    artistidlist=MyPixiv.extarctSort(artistlist,"id")
-    mdn=genMarkdown()
-    mdnc=open(mdn,"r",encoding="utf-8").read()
-    hmdnc=str(markdown2.markdown_path(mdn))
-    with open(mdn.replace(".md",".html"),"w",encoding="utf-8") as f:
-        f.write(hmdnc)
-    postArticle()
-except Exception as e:
-    myLog.errorlog(str(e))
-finally:
     if myConfig.readCfg("savelog") == True:
         myLog.write_cache_log()
     if myConfig.readCfg("clean_cache") == True:
@@ -144,4 +158,5 @@ finally:
             remove(mdn.replace(".md",".html"))
         except:
             pass
-    
+except:
+    pass

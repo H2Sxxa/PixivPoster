@@ -1,0 +1,2 @@
+{"task":"use_config","name":"local delopy","args":"./setting/default"}
+{"task":"run","name":"local run"}
