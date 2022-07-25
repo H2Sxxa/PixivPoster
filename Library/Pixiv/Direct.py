@@ -119,7 +119,6 @@ class Direct():
         onelist=[]
         for obj in rawlinklist:
             for one in obj:
-                print(one["image_urls"].keys())
                 onelist.append(one["image_urls"][quality].replace("i.pximg.net",address))
             allist.append(onelist)
         return allist
