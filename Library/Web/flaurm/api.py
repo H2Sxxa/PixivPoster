@@ -1,5 +1,5 @@
 from requests import post,get,patch
-from json import loads
+from json import dumps, loads
 class Flarum():
     def __init__(self,account:str=None,password:str=None,url:str=None) -> None:
         '''
@@ -11,7 +11,7 @@ class Flarum():
         if url == None:
             raise ValueError("A none url")
         if account == None and password == None:
-            self.header=None
+            self._header=None
         else:
             _identify={
                 "identification":account,
@@ -22,6 +22,8 @@ class Flarum():
             self._header={
                 "Authorization":"Token %s;userId=%s" % (identify["token"],identify["userId"])
                 }
+    def getHeader(self):
+        return self._header
     #tag
     def get2Tags(self) -> dict:
         '''
@@ -33,18 +35,21 @@ class Flarum():
         for tag in raw["data"]:
             result.update({tag["id"]:tag['attributes']["name"]})
         return result
+    
     def getTags(self) -> dict:
         '''
         return all tag infomation
         '''
         resp=get(self.url+"/api/tags",headers=self._header)
         return loads(resp.text)
+    
+    
     #article(discussions)
-    def postArticle(self,title:str,content:str,tagid:str) -> dict:
+    def postArticle(self,title:str,content:str,tag_id:str) -> dict:
         '''
         return all infomation of the new article
         '''
-        _json={"data":{"type": "discussions","attributes": {"title": title,"content": content},"relationships":{"tags": {"data": [{"type": "tags","id": tagid}]}}}}
+        _json={"data":{"type": "discussions","attributes": {"title": title,"content": content},"relationships":{"tags": {"data": [{"type": "tags","id": tag_id}]}}}}
         resp=post(self.url+"/api/discussions",headers=self._header,json=_json)
         return loads(resp.text)
     
@@ -60,6 +65,22 @@ class Flarum():
     
     def patchArticle(self,article_id:str="") -> dict:
         pass
+    #posts
+    def editPosts(self,post_id:str,content:str) -> dict:
+        '''
+        return all information of the new posts
+        '''
+        _json={"data": {"type": "posts","attributes": {"content": content},"id": post_id}}
+        resp=post("%s/api/posts/%s"%(self.url,post_id),headers=self._header,json=_json)
+        return loads(resp.text)
+    
+    def postPosts(self,article_id:str="",content:str="") -> dict:
+        _json={"data":{"type":"posts","attributes":{"content":content},"relationships":{"discussion":{"data":{"type":"discussions","id":article_id}}}}}
+        resp=post(self.url+"/api/posts",headers=self._header,json=_json)
+        return loads(resp.text)
+    def getPosts(self,post_id:str):
+        resp=get("%s/api/posts/%s" % (self.url,post_id),headers=self._header)
+        return loads(resp.text)
     #users
     def createUser(self,username:str,email:str,password:str) -> dict:
         '''

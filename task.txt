@@ -1,4 +1,4 @@
 {"task":"use_config","name":"local delopy","args":"./setting/default"}
 {"task":"run","name":"local run"}
-{"task":"use_config","name":"local delopy","args":"./setting/flarum"}
-{"task":"run","name":"local run"}
+{"task":"use_config","name":"flarum delopy","args":"./setting/flarum"}
+{"task":"run","name":"flarum run"}

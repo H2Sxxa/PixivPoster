@@ -1,9 +1,24 @@
 from json import loads
 from requests import get
-from . import ITime
+import datetime
+def getdate():
+	date = datetime.date.today()+datetime.timedelta(-1)
+	#datetime.date.today(pytz.timezone('Asia/Tokyo'))
+	#pytz.timezone('Asia/Tokyo')
+	#pip install pytz
+	return date.strftime("%Y-%m-%d")
+
+def getdatelist(beginlist,endlist):
+	datelist=[]
+	begin = datetime.date(int(beginlist[0]),int(beginlist[1]),int(beginlist[2]))
+	end = datetime.date(int(endlist[0]),int(endlist[1]),int(endlist[2]))
+	for i in range((end - begin).days+1):
+		day = begin + datetime.timedelta(days=i)
+		datelist.append(str(day))
+	return datelist
 def pixiv(date=None):
     if date == None:
-        adate="date="+ITime.getdate()
+        adate="date="+getdate()
     else:
         adate="date="+date
     api=r"https://api.acgmx.com/public/ranking?ranking_type=illust&mode=daily&per_page=50&page=1&"+adate

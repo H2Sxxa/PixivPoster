@@ -59,15 +59,48 @@ class Direct():
             print(str(e))
             print("failed,may be the refresh_token has expired,it has turned to api")
             return Api.pixiv()
-    def sortRank(self,jsondict):
-        illustidlist,titlelist,pagecount,tagslist,userlist=[],[],[],[],[]
+    def sortRank(self,jsondict:dict):
+        rawlinklist,illustidlist,titlelist,pagecount,tagslist,userlist=[],[],[],[],[],[]
+        '''
+        id
+        title
+        type
+        image_urls
+        caption
+        restrict
+        user
+        tags
+        tools
+        create_date
+        page_count
+        width
+        height
+        sanity_level
+        x_restrict
+        series
+        meta_single_page
+        meta_pages
+        total_view
+        total_bookmarks
+        is_bookmarked
+        visible
+        is_muted
+        '''
         for i in jsondict["illusts"]:
+            rawlinklist.append(self.sort4rawlink(i))
             illustidlist.append(i["id"])
             titlelist.append(i["title"])
             pagecount.append(i["page_count"])
             tagslist.append(i["tags"])
             userlist.append(i["user"])
-        return illustidlist,titlelist,pagecount,tagslist,userlist
+        return illustidlist,titlelist,pagecount,tagslist,userlist,rawlinklist
+    def sort4rawlink(self,illustsdict:dict) -> list:
+        if illustsdict["meta_pages"] == []:
+            outdict=illustsdict
+            outdict["image_urls"].update({"original":illustsdict["meta_single_page"]["original_image_url"]})
+            return [outdict]
+        else:
+            return illustsdict["meta_pages"]
     def sort2Rank(self,pagecount,illustidlist,titlelist,address:str="pixiv.re"):
         return tool.mk_list(pagecount,illustidlist,titlelist,address)
     def sortillustlink(self,illustidlist,illusturllist):
@@ -81,6 +114,16 @@ class Direct():
             alllist.append(onelist)
             onelist=[]
         return alllist
+    def sortReserveLink(self,rawlinklist,quality,address="i.pixiv.re"):
+        allist=[]
+        onelist=[]
+        for obj in rawlinklist:
+            for one in obj:
+                print(one["image_urls"].keys())
+                onelist.append(one["image_urls"][quality].replace("i.pximg.net",address))
+            allist.append(onelist)
+        return allist
+        
     def extarctSort(self,alist:list,key:str) -> list:
         finlist=[]
         for i in alist:

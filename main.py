@@ -45,6 +45,9 @@ def init(Location):
         myConfig.addCfg("web_account","admin@mail.com")
         myConfig.addCfg("web_password","YourPassword")
         myConfig.addCfg("clean_cache",False)
+        myConfig.addCfg("use_forward_proxy","pixiv.re")
+        myConfig.addCfg("use_reverse_proxy","i.pixiv.re")
+        myConfig.addCfg("reserve_proxy_qulity","original")
         myConfig.addCfg("sock_proxy","")
         myConfig.addCfg("sni",True)
         myConfig.addCfg("savelog",False)
@@ -89,6 +92,7 @@ def init(Location):
         loadcfgsign()
 def loadcfgsign():
     myConfig.signCfg("pixiv_mode",sign_mode)
+    myConfig.signCfg("reserve_proxy_qulity","square_medium,medium,large,original")
 def getRank():
     myLog.infolog("Start to get the Pixiv rank")
     return MyPixiv.sortRank(MyPixiv.getRank(myConfig.readCfg("pixiv_mode")))
@@ -121,18 +125,21 @@ def postArticle():
         myClient=Flarum(myConfig.readCfg("web_account"),myConfig.readCfg("web_password"),myConfig.readCfg("web_address"))
         myClient.postArticle(myConfig.readCfg("web_title").replace("$date",myTime.getdate()),mdnc,myConfig.readCfg("web_flarum_tagid"))
 def run():
-    global mdnc,mdn,illustidlist,titlelist,pagecount,tagslist,artistlist,hmdnc,puretagslist,sortillustlist,artistidlist
+    global mdnc,mdn,illustidlist,titlelist,pagecount,tagslist,artistlist,hmdnc,puretagslist,sortillustlist,artistidlist,rawlinklist
     try:
-        illustidlist,titlelist,pagecount,tagslist,artistlist=getRank()
+        illustidlist,titlelist,pagecount,tagslist,artistlist,rawlinklist=getRank()
         illusttags=[]
         tr_illusttags=[]
         for s1tagslist in tagslist:
             illusttags.append(MyPixiv.extarctSort(s1tagslist,"name"))
             tr_illusttags.append(MyPixiv.extarctSort(s1tagslist,"translated_name"))
         puretagslist=[illusttags,tr_illusttags]
-        urllist=MyPixiv.sort2Rank(pagecount,illustidlist,titlelist)
-        pureurllist=MyPixiv.extarctSort(urllist,"url")
-        sortillustlist=MyPixiv.sortillustlink(illustidlist,pureurllist)
+        if myConfig.readCfg("use_forward_proxy") != "" or myConfig.readCfg("use_reverse_proxy") == "":
+            urllist=MyPixiv.sort2Rank(pagecount,illustidlist,titlelist,address=myConfig.readCfg("use_forward_proxy"))
+            pureurllist=MyPixiv.extarctSort(urllist,"url")
+            sortillustlist=MyPixiv.sortillustlink(illustidlist,pureurllist)
+        else:
+            sortillustlist=MyPixiv.sortReserveLink(rawlinklist,myConfig.readCfg("reserve_proxy_qulity"),address=myConfig.readCfg("use_reverse_proxy"))
         artistidlist=MyPixiv.extarctSort(artistlist,"id")
         mdn=genMarkdown()
         mdnc=open(mdn,"r",encoding="utf-8").read()
