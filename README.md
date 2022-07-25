@@ -54,6 +54,12 @@ web_account: wordpress,typecho...账户
 
 web_password: wordpress,typecho...密码
 
+use_forward_proxy 正向代理服务器地址，如果设置反代则会被忽略
+
+use_reverse_proxy 反代服务器地址，详见https://pixiv.cat/reverseproxy.html
+
+reserve_proxy_qulity 反代模式下的图片质量，有square_medium,medium,large,original
+
 clean_cache: 清除缓存（生成的markdown以及html）
 
 sock_proxy: 默认为空，填入则启用代理
@@ -62,11 +68,11 @@ sni: 默认true绕过SNI
 
 savelog: 默认false不生成日志
 
-pixiv_mode: 
+pixiv_mode: ↓
 
 - mode: [day, week, month, day_male, day_female, week_original, week_rookie, day_manga]
 
-- mode[Past]: [day, week, month, day_male, day_female, week_original, week_rookie,day_r18, day_male_r18, day_female_r18, week_r18, week_r18g]
+- mode[Past]: [day, week, month, day_male, day_female, week_original, week_rookie,day_r18, day_male_r18, day_female_r18, week_r18,week_r18g]
 
 refresh_token: 第一次启动输入code程序会自动填写，用于登录
 
