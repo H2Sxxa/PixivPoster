@@ -121,6 +121,7 @@ class Direct():
             for one in obj:
                 onelist.append(one["image_urls"][quality].replace("i.pximg.net",address))
             allist.append(onelist)
+            onelist=[]
         return allist
         
     def extarctSort(self,alist:list,key:str) -> list:
