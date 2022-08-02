@@ -47,11 +47,27 @@ class Flarum():
     
     
     #article(discussions)
-    def postArticle(self,title:str,content:str,tag_id:str) -> dict:
+    def postArticle(self,title:str,content:str,tag_id:list) -> dict:
         '''
         return all infomation of the new article
         '''
-        _json={"data":{"type": "discussions","attributes": {"title": title,"content": content},"relationships":{"tags": {"data": [{"type": "tags","id": tag_id}]}}}}
+        
+        _json={"data":
+            {
+                "type": "discussions",
+                "attributes": {
+                    "title": title,
+                    "content": content
+                    },
+                "relationships":{
+                    "tags": {
+                        "data": []
+                        }
+                    }
+                }
+            }
+        for tag in tag_id:
+            _json["data"]["relationships"]["tags"]["data"].append({"type": "tags","id": tag})
         resp=post(self.url+"/api/discussions",headers=self._header,json=_json,verify=self.Verify)
         return loads(resp.text)
     
